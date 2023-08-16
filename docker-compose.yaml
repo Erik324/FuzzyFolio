@@ -1,8 +1,13 @@
-# volumes:
+volumes:
+  FuzzyFolio:
+    external: true
 services:
   fastapi:
     environment:
       CORS_HOST: http://localhost:3000
+      DATABASE_URL: postgresql://FuzzyFolio:FuzzyFolio@db/FuzzyFolio
+      WAIT_HOSTS: db:5432
+      PORT: 8000
     build:
       context: api
       dockerfile: Dockerfile.dev
@@ -10,6 +15,17 @@ services:
       - 8000:8000
     volumes:
       - ./api:/app
+
+  db:
+    image: postgres:14.5-bullseye
+    volumes:
+      - FuzzyFolio:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: FuzzyFolio
+      POSTGRES_USER: FuzzyFolio
+      POSTGRES_DB: FuzzyFolio
+    ports:
+      - "15432:5432"
 
   ghi:
     image: node:lts-bullseye
