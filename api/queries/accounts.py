@@ -75,7 +75,7 @@ class AccountQueries:
                         record[column.name] = row[i]
 
                     return AccountOutWithPassword(**record)
-
+                
     def get_account_by_username(self, username) -> AccountOutWithPassword:
         with pool.connection() as conn:
             with conn.cursor() as cur:
