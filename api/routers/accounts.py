@@ -46,7 +46,7 @@ def get_account(
     user_id: int,
     queries: AccountQueries = Depends(),
 ):
-    record = queries.get_account(user_id)
+    record = queries.get_account_by_id(user_id)
     if record is None:
         raise HTTPException(status_code=404, detail="No user found with id {}".format(user_id))
     else:

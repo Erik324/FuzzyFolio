@@ -11,7 +11,7 @@ class MyAuthenticator(Authenticator):
         accounts: AccountQueries,
     ):
 
-        return accounts.get_account(username)
+        return accounts.get_account_by_username(username)
 
     def get_account_getter(
         self,

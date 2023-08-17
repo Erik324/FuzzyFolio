@@ -55,7 +55,7 @@ class AccountQueries:
 
                 return results
 
-    def get_account(self, id) -> AccountOutWithPassword:
+    def get_account_by_id(self, id) -> AccountOutWithPassword:
         with pool.connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
@@ -65,6 +65,27 @@ class AccountQueries:
                     WHERE id = %s
                 """,
                     [id],
+                )
+
+                record = None
+                row = cur.fetchone()
+                if row is not None:
+                    record = {}
+                    for i, column in enumerate(cur.description):
+                        record[column.name] = row[i]
+
+                    return AccountOutWithPassword(**record)
+
+    def get_account_by_username(self, username) -> AccountOutWithPassword:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT *
+                    FROM accounts
+                    WHERE username = %s
+                """,
+                    [username],
                 )
 
                 record = None
