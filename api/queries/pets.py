@@ -27,11 +27,13 @@ class PetIn(BaseModel):
     owner_id: int
 
 
+
 class PetOut(PetIn):
     id: int
 
 
 class PetListOut(BaseModel):
+    pets: list[PetOut]
     pets: list[PetOut]
 
 
@@ -126,3 +128,44 @@ class PetQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not update pet"}
+
+    def get_pet(self, id) -> PetOut | None:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT *
+                    FROM pets
+                    WHERE id = %s
+                    """,
+                        [id],
+                )
+
+                record = None
+                row = cur.fetchone()
+                if row is not None:
+                    record = {}
+                    for i, column in enumerate(cur.description):
+                        record[column.name] = row[i]
+                    
+                    return PetOut(**record)
+                
+    def get_pets(self) -> List[PetOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT * 
+                    FROM pets
+                    ORDER BY pet_name
+                    """,
+                )
+
+                results = []
+                for row in cur.fetchall():
+                    record = {}
+                    for i, column in enumerate(cur.description):
+                        record[column.name] = row[i]
+                    results.append(PetOut(**record))
+
+                return results

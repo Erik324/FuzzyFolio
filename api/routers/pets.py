@@ -8,6 +8,24 @@ from psycopg.errors import UniqueViolation
 router = APIRouter()
 
 
+@router.get("/api/pets/{pet_id}", response_model=Optional[PetOut])
+def get_pet(
+    pet_id: int,
+    queries: PetQueries = Depends(),
+):
+    record = queries.get_pet(pet_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="No pet fuond with id {}".format(pet_id))
+    else:
+        return record
+    
+
+@router.get("/api/pets", response_model=PetListOut)
+def get_pets(
+    queries: PetQueries = Depends()
+):
+    return {"pets": queries.get_pets()}
+
 @router.put("/api/pets/{pet_id}", response_model=Union[PetOut, Error])
 def update_pet(
     pet_id: int,

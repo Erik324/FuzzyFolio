@@ -22,6 +22,7 @@ class AccountOut(BaseModel):
 
 class AccountListOut(BaseModel):
     accounts: list[AccountOut]
+    #a list of AccountOut
 
 
 class AccountIn(BaseModel):
