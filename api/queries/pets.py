@@ -31,4 +31,14 @@ class PetListOut(BaseModel):
 
 
 class PetQueries:
-    pass
+    def delete_pet(self, id) -> None:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    DELETE FROM pets
+                    WHERE id = %s
+                    """,
+                    [id],
+                )
+
