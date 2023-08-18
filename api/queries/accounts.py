@@ -5,8 +5,10 @@ from pydantic import BaseModel
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
+
 class DuplicateAccountError(ValueError):
     pass
+
 
 class AccountOut(BaseModel):
     id: int
@@ -21,6 +23,7 @@ class AccountOut(BaseModel):
 class AccountListOut(BaseModel):
     accounts: list[AccountOut]
 
+
 class AccountIn(BaseModel):
     first_name: str
     last_name: str
@@ -28,11 +31,14 @@ class AccountIn(BaseModel):
     phone: Optional[str]
     zip: str
 
+
 class AccountInWithPassword(AccountIn):
     password: str
 
+
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
+
 
 class AccountQueries:
     def get_all_accounts(self) -> List[AccountOut]:
@@ -75,7 +81,7 @@ class AccountQueries:
                         record[column.name] = row[i]
 
                     return AccountOutWithPassword(**record)
-                
+
     def get_account_by_username(self, username) -> AccountOutWithPassword:
         with pool.connection() as conn:
             with conn.cursor() as cur:
@@ -97,7 +103,7 @@ class AccountQueries:
 
                     return AccountOutWithPassword(**record)
 
-    def update_account(self, id:int, account:AccountIn) -> AccountOut:
+    def update_account(self, id: int, account: AccountIn) -> AccountOut:
         with pool.connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
@@ -112,22 +118,17 @@ class AccountQueries:
                     WHERE id = %s ;
                 """,
                     [
-
-                     account.first_name,
-                     account.last_name,
-                     account.username,
-                     account.phone,
-                     account.zip,
-                     id
-
+                        account.first_name,
+                        account.last_name,
+                        account.username,
+                        account.phone,
+                        account.zip,
+                        id,
                     ],
                 )
                 print("it works")
                 old_data = account.dict()
                 return AccountOut(id=id, **old_data)
-
-
-
 
     def create_account(self, data, hashed_password) -> AccountOutWithPassword:
         with pool.connection() as conn:
@@ -138,7 +139,7 @@ class AccountQueries:
                     data.username,
                     data.phone,
                     data.zip,
-                    hashed_password
+                    hashed_password,
                 ]
                 cur.execute(
                     """
