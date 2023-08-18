@@ -1,10 +1,14 @@
 import os
 from psycopg_pool import ConnectionPool
-from typing import List, Literal, Optional
+from typing import List, Literal, Union, Optional
 from pydantic import BaseModel
 
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
+
+
+class Error(BaseModel):
+    message: str
 
 
 class PetIn(BaseModel):
@@ -77,3 +81,48 @@ class PetQueries:
                 old_data = pet.dict()
                 if id is not None:
                     return PetOut(id=id, **old_data)
+
+    def update_pet(self, pet_id: int, pet: PetIn) -> Union[PetOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        UPDATE pets
+                        SET pet_name = %s,
+                            picture = %s,
+                            age = %s,
+                            species = %s,
+                            breed = %s,
+                            color = %s,
+                            weight = %s,
+                            disease = %s,
+                            medication = %s,
+                            allergy = %s,
+                            dietary_restriction = %s,
+                            description = %s,
+                            owner_id = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            pet.pet_name,
+                            pet.picture,
+                            pet.age,
+                            pet.species,
+                            pet.breed,
+                            pet.color,
+                            pet.weight,
+                            pet.disease,
+                            pet.medication,
+                            pet.allergy,
+                            pet.dietary_restriction,
+                            pet.description,
+                            pet.owner_id,
+                            pet_id,
+                        ],
+                    )
+                    old_data = pet.dict()
+                    return PetOut(id=pet_id, **old_data)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not update pet"}

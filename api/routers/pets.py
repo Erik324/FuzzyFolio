@@ -2,10 +2,19 @@ from fastapi import APIRouter, Depends, Response, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Union
 
-from queries.pets import PetIn, PetListOut, PetOut, PetQueries
+from queries.pets import PetIn, PetListOut, PetOut, PetQueries, Error
 from psycopg.errors import UniqueViolation
 
 router = APIRouter()
+
+
+@router.put("/api/pets/{pet_id}", response_model=Union[PetOut, Error])
+def update_pet(
+    pet_id: int,
+    pet: PetIn,
+    repo: PetQueries = Depends(),
+) -> Union[Error, PetOut]:
+    return repo.update_pet(pet_id, pet)
 
 
 @router.delete("/api/pets/{pet_id}", response_model=bool)
