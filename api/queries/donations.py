@@ -25,11 +25,15 @@ class DonationOut(DonationIn):
 class DonationListOut(BaseModel):
     donations: list[DonationOut]
 
+
 class Error(BaseModel):
     message: str
 
+
 class DonationQueries:
-    def update_donation(self, donation_id: int, donation: DonationIn) -> Union[DonationOut, Error]:
+    def update_donation(
+        self, donation_id: int, donation: DonationIn
+    ) -> Union[DonationOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -53,7 +57,7 @@ class DonationQueries:
                             donation.category,
                             donation.claimed,
                             donation.owner_id,
-                            donation_id
+                            donation_id,
                         ],
                     )
                     old_data = donation.dict()
@@ -61,3 +65,32 @@ class DonationQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not update this donation"}
+
+    def create_donation(self, donation) -> DonationOut | None:
+        id = None
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                        INSERT INTO donations (
+                        item_name, description, date, picture, category, claimed, owner_id
+                        )
+                        VALUES(%s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id
+                        """,
+                    [
+                        donation.item_name,
+                        donation.description,
+                        donation.date,
+                        donation.picture,
+                        donation.category,
+                        donation.claimed,
+                        donation.owner_id,
+                    ],
+                )
+
+                row = cur.fetchone()
+                id = row[0]
+                old_data = donation.dict()
+                if id is not None:
+                    return DonationOut(id=id, **old_data)
