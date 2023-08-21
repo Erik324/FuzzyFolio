@@ -92,3 +92,14 @@ class VaccineQueries:
                         record[column.name] = row[i]
 
                     return VaccineOut(**record)
+
+    def delete_vaccine(self, id) -> None:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    DELETE FROM vaccines
+                    WHERE id = %s
+                    """,
+                    [id],
+                )  ### find delete function above

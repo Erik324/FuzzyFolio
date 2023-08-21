@@ -11,6 +11,12 @@ from queries.vaccines import (
 router = APIRouter()
 
 
+@router.delete("/api/vaccines/{vaccine_id}", response_model=bool)
+def delete_vaccine(vaccine_id: int, queries: VaccineQueries = Depends()):
+    queries.delete_vaccine(vaccine_id)
+    return True
+
+
 @router.post("/api/vaccines", response_model=VaccineOut)
 def create_vaccine(
     vaccine: VaccineIn,
