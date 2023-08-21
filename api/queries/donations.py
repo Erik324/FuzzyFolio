@@ -22,3 +22,5 @@ class DonationOut(DonationIn):
 class DonationListOut(BaseModel):
     donations: list[DonationOut]
 
+
+class DonationQueries:
