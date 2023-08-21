@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Response, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Union
 
-from psycopg.errors import UniqueViolationl
+from psycopg.errors import UniqueViolation
 from queries.vaccines import (
     VaccineIn,
     VaccineOut,
