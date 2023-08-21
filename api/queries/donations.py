@@ -24,3 +24,4 @@ class DonationListOut(BaseModel):
 
 
 class DonationQueries:
+    pass
