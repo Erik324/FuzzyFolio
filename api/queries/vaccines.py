@@ -1,12 +1,14 @@
 import os
 from psycopg_pool import ConnectionPool
-from typing import List, Optional
+from typing import List, Optional, Union
 from pydantic import BaseModel
 from datetime import date
 
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
+class Error(BaseModel):
+    message: str
 
 class VaccineIn(BaseModel):
     vaccine_name: str
@@ -92,6 +94,36 @@ class VaccineQueries:
                         record[column.name] = row[i]
 
                     return VaccineOut(**record)
+                
+    def update_vaccine(self, vaccine_id: int, vaccine: VaccineIn) -> Union[VaccineOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        UPDATE vaccines
+                        SET vaccine_name = %s,
+                            clinic = %s,
+                            received_date = %s,
+                            due_date = %s,
+                            pet_id = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            vaccine.vaccine_name,
+                            vaccine.clinic,
+                            vaccine.received_date,
+                            vaccine.due_date,
+                            vaccine.pet_id,
+                            vaccine_id,
+                        ],
+                    )
+
+                    old_data = vaccine.dict()
+                    return VaccineOut(id=vaccine_id, **old_data)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not update vacccine"}
 
     def delete_vaccine(self, id) -> None:
         with pool.connection() as conn:

@@ -1,15 +1,26 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Union
+
+from psycopg.errors import UniqueViolationl
 from queries.vaccines import (
     VaccineIn,
     VaccineOut,
     VaccineListOut,
     VaccineQueries,
+    Error
 )
 
 router = APIRouter()
 
+
+@router.put("/api/vaccines/{vaccine_id}", response_model=Union[VaccineOut, Error])
+def update_vaccine(
+    vaccine_id: int,
+    vaccine: VaccineIn,
+    repo: VaccineQueries = Depends(),
+) -> Union[Error, VaccineOut]:
+    return repo.update_vaccine(vaccine_id, vaccine)
 
 @router.delete("/api/vaccines/{vaccine_id}", response_model=bool)
 def delete_vaccine(vaccine_id: int, queries: VaccineQueries = Depends()):
@@ -18,6 +29,7 @@ def delete_vaccine(vaccine_id: int, queries: VaccineQueries = Depends()):
 
 
 @router.post("/api/vaccines", response_model=VaccineOut)
+
 def create_vaccine(
     vaccine: VaccineIn,
     queries: VaccineQueries = Depends(),
