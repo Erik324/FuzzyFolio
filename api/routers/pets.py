@@ -15,16 +15,17 @@ def get_pet(
 ):
     record = queries.get_pet(pet_id)
     if record is None:
-        raise HTTPException(status_code=404, detail="No pet fuond with id {}".format(pet_id))
+        raise HTTPException(
+            status_code=404, detail="No pet fuond with id {}".format(pet_id)
+        )
     else:
         return record
-    
+
 
 @router.get("/api/pets", response_model=PetListOut)
-def get_pets(
-    queries: PetQueries = Depends()
-):
+def get_pets(queries: PetQueries = Depends()):
     return {"pets": queries.get_pets()}
+
 
 @router.put("/api/pets/{pet_id}", response_model=Union[PetOut, Error])
 def update_pet(
@@ -51,5 +52,5 @@ def create_pet(
     except KeyError as e:
         raise HTTPException(
             status_code=400,
-            detail="Failed to create truck due to foreign key violation with owner",
+            detail="Failed to create pet due to foreign key violation with owner",
         )
