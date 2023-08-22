@@ -8,13 +8,7 @@ from queries.donations import (
     DonationQueries,
     Error,
 )
-from queries.donations import (
-    DonationIn,
-    DonationOut,
-    DonationListOut,
-    DonationQueries,
-    Error,
-)
+
 
 router = APIRouter()
 
@@ -64,3 +58,9 @@ def get_donation(
         )
     else:
         return record
+
+@router.delete("/api/donations/{donation_id}", response_model=bool)
+def delete_donation(donation_id: int, queries: DonationQueries = Depends()):
+    queries.delete_donation(donation_id)
+    return True
+

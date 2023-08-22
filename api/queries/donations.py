@@ -135,3 +135,13 @@ class DonationQueries:
                         record[column.name] = row[i]
 
                     return DonationOut(**record)
+    def delete_donation(self, id) -> None:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    DELETE FROM donations
+                    WHERE id = %s
+                    """,
+                    [id],
+                )
