@@ -15,6 +15,7 @@ from queries.accounts import (
     AccountOutWithPassword,
     AccountOut,
     AccountIn,
+    AuthenticationException,
 )
 from jwtdown_fastapi.authentication import Token
 from .authenticator import MyAuthenticator, authenticator
@@ -53,14 +54,14 @@ async def get_token(
 def get_account(
     user_id: int,
     queries: AccountQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    record = queries.get_account_by_id(user_id)
-    if record is None:
-        raise HTTPException(
-            status_code=404, detail="No user found with id {}".format(user_id)
-        )
-    else:
-        return record
+    try:
+        record = queries.get_account_by_id(user_id)
+    except AuthenticationException:
+        return HTTPException(status.HTTP_401_UNAUTHORIZED)
+    return record
+
 
 
 @router.put("/api/accounts/{user_id}", response_model=Optional[AccountOut])
@@ -68,6 +69,7 @@ def update_account(
     user_id: int,
     account: AccountIn,
     queries: AccountQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     record = queries.update_account(user_id, account)
     if record is None:
@@ -107,6 +109,13 @@ async def create_account(
 
 
 @router.delete("/api/accounts/{user_id}", response_model=bool)
-def delete_account(user_id: int, queries: AccountQueries = Depends()):
+def delete_account(
+    user_id: int,
+    queries: AccountQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    ):
     queries.delete_account(user_id)
     return True
+
+
+

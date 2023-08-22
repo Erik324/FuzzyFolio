@@ -94,7 +94,7 @@ class VaccineQueries:
                         record[column.name] = row[i]
 
                     return VaccineOut(**record)
-                
+
     def update_vaccine(self, vaccine_id: int, vaccine: VaccineIn) -> Union[VaccineOut, Error]:
         try:
             with pool.connection() as conn:
@@ -134,4 +134,4 @@ class VaccineQueries:
                     WHERE id = %s
                     """,
                     [id],
-                )  ### find delete function above
+                )

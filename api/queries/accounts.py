@@ -2,9 +2,12 @@ import os
 from psycopg_pool import ConnectionPool
 from typing import List, Literal, Optional
 from pydantic import BaseModel
+from fastapi import HTTPException
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
+class AuthenticationException(Exception):
+    pass
 
 class DuplicateAccountError(ValueError):
     pass
@@ -76,12 +79,18 @@ class AccountQueries:
 
                 record = None
                 row = cur.fetchone()
-                if row is not None:
-                    record = {}
-                    for i, column in enumerate(cur.description):
-                        record[column.name] = row[i]
-
-                    return AccountOutWithPassword(**record)
+                if row is None:
+                    raise HTTPException(
+                        status_code=404, detail="No user found with id {}".format(id)
+                    )
+                else:
+                    try:
+                        record = {}
+                        for i, column in enumerate(cur.description):
+                            record[column.name] = row[i]
+                        return AccountOutWithPassword(**record)
+                    except Exception as e:
+                        raise Exception("Error:", e)
 
     def get_account_by_username(self, username) -> AccountOutWithPassword:
         with pool.connection() as conn:
