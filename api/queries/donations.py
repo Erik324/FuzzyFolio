@@ -94,3 +94,44 @@ class DonationQueries:
                 old_data = donation.dict()
                 if id is not None:
                     return DonationOut(id=id, **old_data)
+
+    def get_donations(self) -> List[DonationOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT *
+                    FROM donations
+                    ORDER BY owner_id
+                    """,
+                )
+
+                results = []
+                for row in cur.fetchall():
+                    record = {}
+                    for i, column in enumerate(cur.description):
+                        record[column.name] = row[i]
+                    results.append(DonationOut(**record))
+
+                return results
+
+    def get_donation(self, id) -> DonationOut | None:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT *
+                    FROM donations
+                    WHERE id = %s
+                    """,
+                    [id],
+                )
+
+                record = None
+                row = cur.fetchone()
+                if row is not None:
+                    record = {}
+                    for i, column in enumerate(cur.description):
+                        record[column.name] = row[i]
+
+                    return DonationOut(**record)

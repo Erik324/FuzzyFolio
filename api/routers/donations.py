@@ -8,6 +8,13 @@ from queries.donations import (
     DonationQueries,
     Error,
 )
+from queries.donations import (
+    DonationIn,
+    DonationOut,
+    DonationListOut,
+    DonationQueries,
+    Error,
+)
 
 router = APIRouter()
 
@@ -35,3 +42,25 @@ def create_donation(
             status_code=400,
             detail="Failed to create a donation due to foreign key violation with owner",
         )
+
+
+@router.get("/api/donations", response_model=DonationListOut)
+def get_donations(queries: DonationQueries = Depends()):
+    return {"donations": queries.get_donations()}
+
+
+@router.get(
+    "/api/donations/{donation_id}", response_model=Optional[DonationOut]
+)
+def get_donation(
+    donation_id: int,
+    queries: DonationQueries = Depends(),
+):
+    record = queries.get_donation(donation_id)
+    if record is None:
+        raise HTTPException(
+            status_code=404,
+            detail="No account found with id {}".format(donation_id),
+        )
+    else:
+        return record
