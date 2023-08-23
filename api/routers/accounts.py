@@ -6,19 +6,19 @@ from fastapi import (
     APIRouter,
     Request,
 )
+from psycopg.errors import UniqueViolation
 from pydantic import BaseModel
 from typing import Optional
 from queries.accounts import (
     AccountQueries,
     AccountInWithPassword,
-    DuplicateAccountError,
     AccountOutWithPassword,
     AccountOut,
     AccountIn,
     AuthenticationException,
 )
 from jwtdown_fastapi.authentication import Token
-from .authenticator import MyAuthenticator, authenticator
+from .authenticator import authenticator
 
 
 class AccountForm(BaseModel):
@@ -56,12 +56,19 @@ def get_account(
     queries: AccountQueries = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    try:
-        record = queries.get_account_by_id(user_id)
-    except AuthenticationException:
-        return HTTPException(status.HTTP_401_UNAUTHORIZED)
-    return record
-
+    if user_id != account_data["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Unauthorized - current account id {} does not own resource".format(
+                account_data["id"]
+            ),
+        )
+    else:
+        try:
+            record = queries.get_account_by_id(user_id)
+        except AuthenticationException:
+            return HTTPException(status.HTTP_401_UNAUTHORIZED)
+        return record
 
 
 @router.put("/api/accounts/{user_id}", response_model=Optional[AccountOut])
@@ -71,19 +78,32 @@ def update_account(
     queries: AccountQueries = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    record = queries.update_account(user_id, account)
-    if record is None:
+    if user_id != account_data["id"]:
         raise HTTPException(
-            status_code=404, detail="No user found with id {}".format(user_id)
+            status_code=403,
+            detail="Unauthorized - current account id {} does not own resource".format(
+                account_data["id"]
+            ),
         )
     else:
-        return record
+        try:
+            record = queries.update_account(user_id, account)
+            if record is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail="No user found with id {}".format(user_id),
+                )
+            else:
+                return record
+        except UniqueViolation:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot update account, username is already in use",
+            )
 
 
 # @router.get("/api/accounts", response_model=AccountListOut)
-# def get_accounts(
-#     queries: AccountQueries = Depends()
-# ):
+# def get_accounts(queries: AccountQueries = Depends()):
 #     return {"accounts": queries.get_all_accounts()}
 
 
@@ -97,15 +117,14 @@ async def create_account(
     hashed_password = authenticator.hash_password(info.password)
     try:
         account = queries.create_account(info, hashed_password)
-    except DuplicateAccountError:
+        form = AccountForm(username=info.username, password=info.password)
+        token = await authenticator.login(response, request, form, queries)
+        return AccountToken(account=account, **token.dict())
+    except UniqueViolation:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Cannot create an account with those credentials",
+            detail="Cannot create an account, username is already in use",
         )
-    # review if other field is required
-    form = AccountForm(username=info.username, password=info.password)
-    token = await authenticator.login(response, request, form, queries)
-    return AccountToken(account=account, **token.dict())
 
 
 @router.delete("/api/accounts/{user_id}", response_model=bool)
@@ -113,9 +132,14 @@ def delete_account(
     user_id: int,
     queries: AccountQueries = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
-    ):
-    queries.delete_account(user_id)
-    return True
-
-
-
+):
+    if user_id != account_data["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Unauthorized - current account id {} does not own resource".format(
+                account_data["id"]
+            ),
+        )
+    else:
+        queries.delete_account(user_id)
+        return True

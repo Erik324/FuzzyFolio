@@ -1,39 +1,30 @@
 import os
 from psycopg_pool import ConnectionPool
-from typing import List, Literal, Optional
+from typing import List, Optional
 from pydantic import BaseModel
 from fastapi import HTTPException
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
+
 class AuthenticationException(Exception):
     pass
-
-class DuplicateAccountError(ValueError):
-    pass
-
-
-class AccountOut(BaseModel):
-    id: int
-    first_name: str
-    last_name: str
-    username: str
-    phone: Optional[str]
-    zip: str
-    # hashed_password: str
-
-
-class AccountListOut(BaseModel):
-    accounts: list[AccountOut]
-    #a list of AccountOut
 
 
 class AccountIn(BaseModel):
     first_name: str
     last_name: str
     username: str
-    phone: Optional[str]
-    zip: str
+    phone: Optional[int]
+    zip: int
+
+
+class AccountOut(AccountIn):
+    id: int
+
+
+class AccountListOut(BaseModel):
+    accounts: list[AccountOut]
 
 
 class AccountInWithPassword(AccountIn):
@@ -46,24 +37,28 @@ class AccountOutWithPassword(AccountOut):
 
 class AccountQueries:
     def get_all_accounts(self) -> List[AccountOut]:
-        with pool.connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT *
+                        FROM accounts
+                        ORDER BY last_name, first_name
                     """
-                    SELECT *
-                    FROM accounts
-                    ORDER BY last_name, first_name
-                """
-                )
+                    )
 
-                results = []
-                for row in cur.fetchall():
-                    record = {}
-                    for i, column in enumerate(cur.description):
-                        record[column.name] = row[i]
-                    results.append(AccountOut(**record))
+                    results = []
+                    for row in cur.fetchall():
+                        record = {}
+                        for i, column in enumerate(cur.description):
+                            record[column.name] = row[i]
+                        results.append(AccountOut(**record))
 
-                return results
+                    return results
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get all accounts"}
 
     def get_account_by_id(self, id) -> AccountOutWithPassword:
         with pool.connection() as conn:
@@ -81,7 +76,8 @@ class AccountQueries:
                 row = cur.fetchone()
                 if row is None:
                     raise HTTPException(
-                        status_code=404, detail="No user found with id {}".format(id)
+                        status_code=404,
+                        detail="No user found with id {}".format(id),
                     )
                 else:
                     try:
@@ -92,7 +88,7 @@ class AccountQueries:
                     except Exception as e:
                         raise Exception("Error:", e)
 
-    def get_account_by_username(self, username) -> AccountOutWithPassword:
+    def username_check(self, username) -> AccountOutWithPassword:
         with pool.connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
@@ -113,20 +109,52 @@ class AccountQueries:
 
                     return AccountOutWithPassword(**record)
 
-    def update_account(self, id: int, account: AccountIn) -> AccountOut:
+    def get_account_by_username(self, username) -> AccountOutWithPassword:
         with pool.connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    UPDATE accounts
-                    SET
-                    first_name = %s,
-                    last_name = %s,
-                    username = %s,
-                    phone = %s,
-                    zip = %s
-                    WHERE id = %s ;
+                    SELECT *
+                    FROM accounts
+                    WHERE username = %s
                 """,
+                    [username],
+                )
+
+                record = None
+                row = cur.fetchone()
+                if row is None:
+                    raise HTTPException(
+                        status_code=404,
+                        detail="No user found with username {}".format(
+                            username
+                        ),
+                    )
+                else:
+                    try:
+                        record = {}
+                        for i, column in enumerate(cur.description):
+                            record[column.name] = row[i]
+                        return AccountOutWithPassword(**record)
+                    except Exception as e:
+                        raise Exception("Error:", e)
+
+    def update_account(self, id: int, account: AccountIn) -> AccountOut:
+        if self.get_account_by_id(id) is None:
+            return None
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                        UPDATE accounts
+                        SET
+                        first_name = %s,
+                        last_name = %s,
+                        username = %s,
+                        phone = %s,
+                        zip = %s
+                        WHERE id = %s ;
+                    """,
                     [
                         account.first_name,
                         account.last_name,
@@ -136,7 +164,6 @@ class AccountQueries:
                         id,
                     ],
                 )
-                print("it works")
                 old_data = account.dict()
                 return AccountOut(id=id, **old_data)
 

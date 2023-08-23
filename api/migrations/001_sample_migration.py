@@ -1,6 +1,5 @@
 steps = [
     [
-        # "Up" SQL statement
         """
         CREATE TABLE accounts (
             id SERIAL NOT NULL PRIMARY KEY,
@@ -12,13 +11,11 @@ steps = [
             zip INT NOT NULL
         );
         """,
-        # "Down" SQL statement
         """
         DROP TABLE accounts;
         """,
     ],
     [
-        # "Up" SQL statement
         """
         CREATE TABLE pets (
             id SERIAL NOT NULL UNIQUE PRIMARY KEY,
@@ -37,13 +34,11 @@ steps = [
             owner_id INTEGER REFERENCES accounts("id") ON DELETE CASCADE
         );
         """,
-        # "Down" SQL statement
         """
         DROP TABLE pets;
         """,
     ],
     [
-        # "Up" SQL statement
         """
         CREATE TABLE donations (
             id SERIAL NOT NULL PRIMARY KEY,
@@ -56,13 +51,11 @@ steps = [
             owner_id INTEGER NOT NULL REFERENCES accounts("id") ON DELETE CASCADE
         );
         """,
-        # "Down" SQL statement
         """
         DROP TABLE donations;
         """,
     ],
     [
-        # "Up" SQL statement
         """
         CREATE TABLE vaccines (
             id SERIAL NOT NULL PRIMARY KEY,
@@ -73,7 +66,6 @@ steps = [
             due_date DATE
         );
         """,
-        # "Down" SQL statement
         """
         DROP TABLE vaccines;
         """,

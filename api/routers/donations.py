@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, Response, HTTPException
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException
 from typing import Optional, Union
 from queries.donations import (
     DonationIn,
@@ -8,6 +7,7 @@ from queries.donations import (
     DonationQueries,
     Error,
 )
+from .authenticator import authenticator
 
 
 router = APIRouter()
@@ -18,23 +18,40 @@ router = APIRouter()
 )
 def update_donation(
     donation_id: int,
-    pet: DonationIn,
+    donation: DonationIn,
     repo: DonationQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> Union[Error, DonationOut]:
-    return repo.update_donation(donation_id, pet)
+    result = repo.update_donation(donation_id, donation)
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Donation by id {} does not exist".format(donation_id),
+        )
+    elif donation.owner_id != account_data["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Unauthorized - current account id {} does not own resource".format(
+                account_data["id"]
+            ),
+        )
+    else:
+        return result
 
 
 @router.post("/api/donations", response_model=DonationOut)
 def create_donation(
     donation: DonationIn,
     queries: DonationQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     try:
         return queries.create_donation(donation)
-    except KeyError as e:
+    except Exception as e:
+        print(e)
         raise HTTPException(
             status_code=400,
-            detail="Failed to create a donation due to foreign key violation with owner",
+            detail="Failed to create doantion",
         )
 
 
@@ -54,13 +71,26 @@ def get_donation(
     if record is None:
         raise HTTPException(
             status_code=404,
-            detail="No account found with id {}".format(donation_id),
+            detail="No donation found with id {}".format(donation_id),
         )
     else:
         return record
 
-@router.delete("/api/donations/{donation_id}", response_model=bool)
-def delete_donation(donation_id: int, queries: DonationQueries = Depends()):
-    queries.delete_donation(donation_id)
-    return True
 
+@router.delete("/api/donations/{donation_id}", response_model=bool)
+def delete_donation(
+    donation_id: int,
+    queries: DonationQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
+):
+    result = queries.get_donation(donation_id)
+    if result.owner_id != account_data["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Unauthorized - current account id {} does not own resource".format(
+                account_data["id"]
+            ),
+        )
+    else:
+        queries.delete_donation(donation_id)
+        return True

@@ -1,6 +1,6 @@
 import os
 from psycopg_pool import ConnectionPool
-from typing import List, Literal, Union, Optional
+from typing import List, Union, Optional
 from pydantic import BaseModel
 
 
@@ -27,7 +27,6 @@ class PetIn(BaseModel):
     owner_id: int
 
 
-
 class PetOut(PetIn):
     id: int
 
@@ -50,39 +49,43 @@ class PetQueries:
                 )
 
     def create_pet(self, pet) -> PetOut | None:
-        id = None
-        with pool.connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    """
-                    INSERT INTO pets (
-                    pet_name, picture, age, species, breed, color, weight, disease, medication, allergy, dietary_restriction, description, owner_id
+        try:
+            id = None
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        INSERT INTO pets (
+                        pet_name, picture, age, species, breed, color, weight, disease, medication, allergy, dietary_restriction, description, owner_id
+                        )
+                        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id
+                        """,
+                        [
+                            pet.pet_name,
+                            pet.picture,
+                            pet.age,
+                            pet.species,
+                            pet.breed,
+                            pet.color,
+                            pet.weight,
+                            pet.disease,
+                            pet.medication,
+                            pet.allergy,
+                            pet.dietary_restriction,
+                            pet.description,
+                            pet.owner_id,
+                        ],
                     )
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING id
-                    """,
-                    [
-                        pet.pet_name,
-                        pet.picture,
-                        pet.age,
-                        pet.species,
-                        pet.breed,
-                        pet.color,
-                        pet.weight,
-                        pet.disease,
-                        pet.medication,
-                        pet.allergy,
-                        pet.dietary_restriction,
-                        pet.description,
-                        pet.owner_id,
-                    ],
-                )
 
-                row = cur.fetchone()
-                id = row[0]
-                old_data = pet.dict()
-                if id is not None:
-                    return PetOut(id=id, **old_data)
+                    row = cur.fetchone()
+                    id = row[0]
+                    old_data = pet.dict()
+                    if id is not None:
+                        return PetOut(id=id, **old_data)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not create pet"}
 
     def update_pet(self, pet_id: int, pet: PetIn) -> Union[PetOut, Error]:
         try:
@@ -130,42 +133,50 @@ class PetQueries:
             return {"message": "Could not update pet"}
 
     def get_pet(self, id) -> PetOut | None:
-        with pool.connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    """
-                    SELECT *
-                    FROM pets
-                    WHERE id = %s
-                    """,
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT *
+                        FROM pets
+                        WHERE id = %s
+                        """,
                         [id],
-                )
+                    )
 
-                record = None
-                row = cur.fetchone()
-                if row is not None:
-                    record = {}
-                    for i, column in enumerate(cur.description):
-                        record[column.name] = row[i]
-                    
-                    return PetOut(**record)
-                
+                    record = None
+                    row = cur.fetchone()
+                    if row is not None:
+                        record = {}
+                        for i, column in enumerate(cur.description):
+                            record[column.name] = row[i]
+
+                        return PetOut(**record)
+        except Exception as e:
+            print(e)
+            return {"message": "Could not update your pet"}
+
     def get_pets(self) -> List[PetOut]:
-        with pool.connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    """
-                    SELECT * 
-                    FROM pets
-                    ORDER BY pet_name
-                    """,
-                )
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT *
+                        FROM pets
+                        ORDER BY pet_name
+                        """,
+                    )
 
-                results = []
-                for row in cur.fetchall():
-                    record = {}
-                    for i, column in enumerate(cur.description):
-                        record[column.name] = row[i]
-                    results.append(PetOut(**record))
+                    results = []
+                    for row in cur.fetchall():
+                        record = {}
+                        for i, column in enumerate(cur.description):
+                            record[column.name] = row[i]
+                        results.append(PetOut(**record))
 
-                return results
+                    return results
+        except Exception as e:
+            print(e)
+            return {"message": "Could not retrieve your pets"}
