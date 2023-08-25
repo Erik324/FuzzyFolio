@@ -7,6 +7,7 @@ import TitleBar from "./TitleBar";
 import SignupForm from "./SignupForm";
 import { Main } from "./Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from "./Home";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -41,7 +42,8 @@ function App() {
         <Construct info={launchInfo} /> */}
           <TitleBar />
           <Routes>
-            <Route exact path="/" element={<Main />}></Route>
+            <Route index path="/" element={<Homepage />}></Route>
+            <Route exact path="/login" element={<Main />}></Route>
             <Route exact path="/signup" element={<SignupForm />}></Route>
           </Routes>
         </div>
