@@ -2,7 +2,6 @@
 // import Construct from "./Construct.js";
 // import ErrorNotification from "./ErrorNotification";
 import "./App.css";
-import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 import TitleBar from "./TitleBar";
 import SignupForm from "./SignupForm";
 import { Main } from "./Main";
@@ -11,8 +10,9 @@ import Homepage from "./Home";
 import { useEffect, useState } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import MyAccount from "./MyAccount";
+import PetForm from "./PetForm";
 
-function App() {
+function App({ baseUrl }) {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
   // const [launchInfo, setLaunchInfo] = useState([]);
@@ -71,6 +71,11 @@ function App() {
             path="/myaccount"
             element={<MyAccount userId={userId} />}
           />
+          <Route
+            exact
+            path="/pets/new"
+            element={<PetForm userId={userId} baseUrl={baseUrl} />}
+          ></Route>
         </Routes>
       </div>
     </BrowserRouter>

@@ -104,8 +104,8 @@ function Nav() {
                 </NavLink>
                 <ul className="dropdown-menu">
                   <li>
-                    <NavLink className="dropdown-item" to="#">
-                      Action
+                    <NavLink className="dropdown-item" to="/pets/new">
+                      Add a Pet
                     </NavLink>
                   </li>
                   <li>
