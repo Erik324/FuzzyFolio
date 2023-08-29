@@ -8,6 +8,9 @@ import SignupForm from "./SignupForm";
 import { Main } from "./Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./Home";
+import { useEffect, useState } from "react";
+import useToken from "@galvanize-inc/jwtdown-for-react";
+import MyAccount from "./MyAccount";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -33,21 +36,43 @@ function App() {
   //   }
   //   getData();
   // }, []);
+  const [userId, setUserId] = useState("");
+  const { fetchWithToken, token } = useToken();
+  const getAccountData = async () => {
+    if (token) {
+      const response = await fetchWithToken(
+        `${process.env.REACT_APP_API_HOST}/api/accountdata`
+      );
+      setUserId(response["id"]);
+    } else {
+      setUserId(null);
+    }
+  };
+  useEffect(() => {
+    getAccountData();
+  }, [token]);
+
+  useEffect(() => {
+    console.log("Account ID: ", userId);
+  }, [userId]);
 
   return (
     <BrowserRouter basename={basename}>
-      <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
-        <div>
-          {/* <ErrorNotification error={error} />
+      <div>
+        {/* <ErrorNotification error={error} />
         <Construct info={launchInfo} /> */}
-          <TitleBar />
-          <Routes>
-            <Route index path="/" element={<Homepage />}></Route>
-            <Route exact path="/login" element={<Main />}></Route>
-            <Route exact path="/signup" element={<SignupForm />}></Route>
-          </Routes>
-        </div>
-      </AuthProvider>
+        <TitleBar />
+        <Routes>
+          <Route index path="/" element={<Homepage />}></Route>
+          <Route exact path="/login" element={<Main />}></Route>
+          <Route exact path="/signup" element={<SignupForm />}></Route>
+          <Route
+            exact
+            path="/myaccount"
+            element={<MyAccount userId={userId} />}
+          />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

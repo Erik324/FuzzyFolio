@@ -34,6 +34,12 @@ function Nav() {
   const handleClick = () => navigate("/signup");
   const handleLoginClick = () => navigate("/login");
 
+  const myAccountButton = (
+    <NavLink className="nav-link" to="/myaccount">
+      My Account
+    </NavLink>
+  );
+
   const logoutButton = <button onClick={logout}>Logout</button>;
   const loginButton = <button onClick={handleLoginClick}>Login</button>;
   const signupButton = <button onClick={handleClick}>Signup</button>;
@@ -80,6 +86,7 @@ function Nav() {
                   Home
                 </NavLink>
               </li>
+              <li className="nav-item">{token && myAccountButton}</li>
               <li className="nav-item">
                 {token && logoutButton}
                 {!token && signupButton}
