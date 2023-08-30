@@ -84,7 +84,7 @@ def delete_donation(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     result = queries.get_donation(donation_id)
-    if result.owner_id != account_data["id"]:
+    if result.owner.id != account_data["id"]:
         raise HTTPException(
             status_code=403,
             detail="Unauthorized - current account id {} does not own resource".format(

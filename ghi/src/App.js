@@ -1,4 +1,3 @@
-// import { useEffect, useState } from "react";
 // import Construct from "./Construct.js";
 // import ErrorNotification from "./ErrorNotification";
 import "./App.css";
@@ -11,10 +10,18 @@ import { useEffect, useState } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import MyAccount from "./MyAccount";
 import PetForm from "./PetForm";
+import DonationList from "./DonationList";
+import MyDonationList from "./MyDonationList";
+import DonationForm from "./DonationForm";
+
+
+
+
 
 function App({ baseUrl }) {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
+  // const [userId, setUserId] = useState("");
   // const [launchInfo, setLaunchInfo] = useState([]);
   // const [error, setError] = useState(null);
 
@@ -36,6 +43,7 @@ function App({ baseUrl }) {
   //   }
   //   getData();
   // }, []);
+
   const [userId, setUserId] = useState("");
   const { fetchWithToken, token } = useToken();
   const getAccountData = async () => {
@@ -55,6 +63,8 @@ function App({ baseUrl }) {
   useEffect(() => {
     console.log("Account ID: ", userId);
   }, [userId]);
+
+
 
   return (
     <BrowserRouter basename={basename}>
@@ -76,6 +86,16 @@ function App({ baseUrl }) {
             path="/pets/new"
             element={<PetForm userId={userId} baseUrl={baseUrl} />}
           ></Route>
+            <Route exact path="/donations" element={<DonationList />}></Route>
+            <Route
+              exact
+              path="/mydonations/"
+              element={<MyDonationList accountId={userId} />}
+            ></Route>
+            <Route
+              path="/donations/createDonation"
+              element={<DonationForm accountId={userId} />}
+            ></Route>
         </Routes>
       </div>
     </BrowserRouter>

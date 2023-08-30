@@ -1,4 +1,5 @@
 import os
+from .accounts import AccountOut
 from psycopg_pool import ConnectionPool
 from typing import List, Optional, Union
 from pydantic import BaseModel
@@ -18,8 +19,15 @@ class DonationIn(BaseModel):
     owner_id: int
 
 
-class DonationOut(DonationIn):
+class DonationOut(BaseModel):
     id: int
+    item_name: str
+    description: Optional[str]
+    date: date
+    picture: Optional[str]
+    category: str
+    claimed: bool
+    owner: AccountOut
 
 
 class DonationListOut(BaseModel):
@@ -60,8 +68,8 @@ class DonationQueries:
                             donation_id,
                         ],
                     )
-                    old_data = donation.dict()
-                    return DonationOut(id=donation_id, **old_data)
+            updated_donation = self.get_donation(donation_id)
+            return updated_donation
         except Exception as e:
             print(e)
             return {"message": "Could not update this donation"}
@@ -92,9 +100,8 @@ class DonationQueries:
 
                     row = cur.fetchone()
                     id = row[0]
-                    old_data = donation.dict()
-                    if id is not None:
-                        return DonationOut(id=id, **old_data)
+            if id is not None:
+                return self.get_donation(id)
         except Exception as e:
             print(e)
             return {"message": "Could not create this donation"}
@@ -105,20 +112,21 @@ class DonationQueries:
                 with conn.cursor() as cur:
                     cur.execute(
                         """
-                        SELECT *
-                        FROM donations
-                        ORDER BY owner_id
+                        SELECT d.id, d.item_name, d.description, d.date, d.picture, d.category,
+                               d.claimed, d.owner_id, a.id AS owner_id, a.first_name, a.last_name,
+                               a.username, a.phone, a.zip
+                        FROM accounts a
+                        JOIN donations d ON(a.id = d.owner_id)
+
                         """,
                     )
+                    donations = []
+                    rows = cur.fetchall()
+                    for row in rows:
+                        donation = self.donation_record_to_dict(row, cur.description)
+                        donations.append(donation)
+                    return donations
 
-                    results = []
-                    for row in cur.fetchall():
-                        record = {}
-                        for i, column in enumerate(cur.description):
-                            record[column.name] = row[i]
-                        results.append(DonationOut(**record))
-
-                    return results
         except Exception as e:
             print(e)
             return {"message": "Could not retreive these donations"}
@@ -129,21 +137,20 @@ class DonationQueries:
                 with conn.cursor() as cur:
                     cur.execute(
                         """
-                        SELECT *
-                        FROM donations
-                        WHERE id = %s
+                         SELECT d.id, d.item_name, d.description, d.date, d.picture, d.category,
+                                d.claimed, d.owner_id,
+                                a.id AS owner_id, a.first_name, a.last_name,
+                                a.username, a.phone, a.zip
+                            FROM donations d
+                            JOIN accounts a ON(a.id = d.owner_id)
+                            WHERE d.id = %s
                         """,
                         [id],
                     )
 
-                    record = None
                     row = cur.fetchone()
-                    if row is not None:
-                        record = {}
-                        for i, column in enumerate(cur.description):
-                            record[column.name] = row[i]
+                    return self.donation_record_to_dict(row, cur.description)
 
-                        return DonationOut(**record)
         except Exception as e:
             print(e)
             return {"message": "Could not get this donation"}
@@ -158,3 +165,39 @@ class DonationQueries:
                     """,
                     [id],
                 )
+
+
+    def donation_record_to_dict(self, row, description) -> DonationOut | None:
+        donation = None
+        if row is not None:
+            donation = {}
+            donation_fields = [
+                "id",
+                "item_name",
+                "description",
+                "category",
+                "date",
+                "picture",
+                "claimed",
+            ]
+            for i, column in enumerate(description):
+                if column.name in donation_fields:
+                    donation[column.name] = row[i]
+            owner = {}
+            owner_fields = [
+                "owner_id",
+                "first_name",
+                "last_name",
+                "username",
+                "phone",
+                "zip",
+            ]
+            for i, column in enumerate(description):
+                if column.name in owner_fields:
+                    owner[column.name] = row[i]
+            owner["id"] = owner["owner_id"]
+
+            donation["owner"] = AccountOut(**owner)
+            return DonationOut(**donation)
+
+
