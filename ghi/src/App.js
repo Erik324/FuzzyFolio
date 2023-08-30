@@ -13,10 +13,8 @@ import PetForm from "./PetForm";
 import DonationList from "./DonationList";
 import MyDonationList from "./MyDonationList";
 import DonationForm from "./DonationForm";
-
-
-
-
+import MyPets from "./MyPets";
+import PetDetail from "./PetDetail";
 
 function App({ baseUrl }) {
   const domain = /https:\/\/[^/]+/;
@@ -64,8 +62,6 @@ function App({ baseUrl }) {
     console.log("Account ID: ", userId);
   }, [userId]);
 
-
-
   return (
     <BrowserRouter basename={basename}>
       <div>
@@ -86,16 +82,19 @@ function App({ baseUrl }) {
             path="/pets/new"
             element={<PetForm userId={userId} baseUrl={baseUrl} />}
           ></Route>
-            <Route exact path="/donations" element={<DonationList />}></Route>
-            <Route
-              exact
-              path="/mydonations/"
-              element={<MyDonationList accountId={userId} />}
-            ></Route>
-            <Route
-              path="/donations/createDonation"
-              element={<DonationForm accountId={userId} />}
-            ></Route>
+          <Route exact path="/donations" element={<DonationList />}></Route>
+          <Route
+            exact
+            path="/mydonations/"
+            element={<MyDonationList accountId={userId} />}
+          ></Route>
+          <Route
+            path="/donations/createDonation"
+            element={<DonationForm accountId={userId} />}
+          ></Route>
+          <Route path="/pets" element={<MyPets userId={userId} />}>
+            <Route path="{pet_id}" element={<PetDetail />}></Route>
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>

@@ -63,6 +63,15 @@ function Nav() {
               </li>
               <li className="nav-item">{token && myAccountButton}</li>
               <li className="nav-item">
+                <NavLink
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/pets"
+                >
+                  My Pets
+                </NavLink>
+              </li>
+              <li className="nav-item">
                 {token && logoutButton}
                 {!token && signupButton}
               </li>
