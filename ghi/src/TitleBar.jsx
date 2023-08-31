@@ -2,7 +2,6 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
-
 function Nav() {
   const { logout, token } = useToken();
   const navigate = useNavigate();
@@ -63,15 +62,6 @@ function Nav() {
               </li>
               <li className="nav-item">{token && myAccountButton}</li>
               <li className="nav-item">
-                <NavLink
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/pets"
-                >
-                  My Pets
-                </NavLink>
-              </li>
-              <li className="nav-item">
                 {token && logoutButton}
                 {!token && signupButton}
               </li>
@@ -104,6 +94,11 @@ function Nav() {
                   </li>
                   {token && (
                     <>
+                      <li>
+                        <NavLink className="dropdown-item" to="/pets">
+                          My Pets
+                        </NavLink>
+                      </li>
                       <li>
                         <NavLink
                           className="dropdown-item"

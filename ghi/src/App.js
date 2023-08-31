@@ -93,7 +93,10 @@ function App({ baseUrl }) {
             element={<DonationForm accountId={userId} />}
           ></Route>
           <Route path="/pets" element={<MyPets userId={userId} />}>
-            <Route path="{pet_id}" element={<PetDetail />}></Route>
+            <Route
+              path="{pet_id}"
+              element={<PetDetail userId={userId} />}
+            ></Route>
           </Route>
         </Routes>
       </div>
