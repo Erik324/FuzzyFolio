@@ -1,8 +1,9 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-
-function DonationForm({ accountId }) {
+function EditMyDonation({ accountId}) {
   const { token, fetchWithToken } = useToken();
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
@@ -10,6 +11,10 @@ function DonationForm({ accountId }) {
   const [picture, setPicture] = useState("");
   const [category, setCategory] = useState("");
   const [claimed, setClaimed] = useState("");
+  const { donationId } = useParams();
+  const navigate = useNavigate();
+
+//   console.log(donationId)
 
   function handleItemNameChange(event) {
     const { value } = event.target;
@@ -40,22 +45,22 @@ function DonationForm({ accountId }) {
     setClaimed(checked);
   }
 
+  useEffect(() => {
+    async function fetchDonationData() {
+      const donationUrl = `${process.env.REACT_APP_API_HOST}/api/donations/${donationId}`;
+      const response = await fetchWithToken(donationUrl, "GET");
+      setItemName(response.item_name);
+      setDescription(response.description);
+      setDate(response.date);
+      setPicture(response.picture);
+      setCategory(response.category);
+      setClaimed(response.claimed);
+    }
+    fetchDonationData();
+  }, [token, donationId]);
+
   async function handleSubmit(event) {
     event.preventDefault();
-    // if (!token) {
-    //   console.log("Please log in to create a donation.");
-    //   return;
-    // }
-    // console.log(token);
-
-    // const accountUrl = `${process.env.REACT_APP_API_HOST}/api/accounts/${accountId}`;
-    // const accountData = await fetchWithToken(accountUrl, "GET");
-    // if (accountData["id"] !== accountId) {
-    //   console.log(
-    //     "You are not authorized to create a donation for this account."
-    //   );
-    //   return;
-    // }
 
     const data = {
       item_name: itemName,
@@ -67,9 +72,9 @@ function DonationForm({ accountId }) {
       owner_id: accountId,
     };
 
-    const donationUrl = `${process.env.REACT_APP_API_HOST}/api/donations`;
+    const donationUrl = `${process.env.REACT_APP_API_HOST}/api/donations/${donationId}`;
     const response = await fetch(donationUrl, {
-      method: "POST",
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -77,15 +82,7 @@ function DonationForm({ accountId }) {
       body: JSON.stringify(data),
     });
     if (response.ok) {
-    //   const newDonation = await response.json();
-    //   console.log(newDonation);
-
-      setItemName("");
-      setDescription("");
-      setDate("");
-      setPicture("");
-      setCategory("");
-      setClaimed("");
+    navigate(`/mydonations`);
     }
   }
 
@@ -93,8 +90,8 @@ function DonationForm({ accountId }) {
     <div className="row">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
-          <h1>Create a donation post</h1>
-          <form onSubmit={handleSubmit} id="create-donation-form">
+          <h1>Edit Donation</h1>
+          <form onSubmit={handleSubmit} id="edit-donation-form">
             <div className="form-floating mb-3">
               <input
                 onChange={handleItemNameChange}
@@ -177,7 +174,7 @@ function DonationForm({ accountId }) {
                 Is it claimed?
               </label>
             </div>
-            <button className="btn btn-primary">Create</button>
+            <button className="btn btn-primary">Update</button>
           </form>
         </div>
       </div>
@@ -185,4 +182,4 @@ function DonationForm({ accountId }) {
   );
 }
 
-export default DonationForm;
+export default EditMyDonation;

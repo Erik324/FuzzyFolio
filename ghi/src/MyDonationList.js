@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
+import EditMyDonation from "./EditMyDonation";
+import { useNavigate } from "react-router-dom";
+
 
 
 function MyDonationList({ accountId }) {
   const { token, fetchWithToken } = useToken();
+  const navigate = useNavigate();
   const [donations, setDonations] = useState([]);
   const [isAuthorized, setIsAuthorized] = useState(true);
-
+  const [selectedDonationId, setSelectedDonationId] = useState(null);
 
 
   async function getDonations() {
@@ -21,8 +25,6 @@ function MyDonationList({ accountId }) {
     if (token && accountId != null) {
       const accountUrl = `${process.env.REACT_APP_API_HOST}/api/accounts/${accountId}`;
       const accountData = await fetchWithToken(accountUrl, "GET");
-      // console.log("accountdata:", accountData["id"]);
-      // console.log("accountId:", accountId);
       if (accountData["id"] !== accountId) {
         console.log(
           "You are not authorized to view donations for this account."
@@ -34,7 +36,6 @@ function MyDonationList({ accountId }) {
 
 
   useEffect(() => {
-
     getDonations();
     getAccountData();
   }, [token, accountId]);
@@ -55,13 +56,18 @@ function MyDonationList({ accountId }) {
     donationColumns = createColumns(filteredDonations, 3);
   }
 
+  const handleEditButtonClick = (donationId) => {
+    setSelectedDonationId(donationId);
+    navigate(`/donations/editDonation/${donationId}`);
+  };
+
   return (
     <div className="donation-list mt-5 pt-5">
       <div className="container">
         {donationColumns.map((column, columnIndex) => (
-          <div key={`column-${columnIndex}`} className="row">
+          <div key={columnIndex} className="row">
             {column.map((donation) => (
-              <div key={`donation-${donation.id}`} className="col-md-4">
+              <div key={donation.id} className="col-md-4">
                 <div className="card mb-3 p-3">
                   <div className="card-body">
                     <h5 className="card-title">{donation.item_name}</h5>
@@ -83,6 +89,12 @@ function MyDonationList({ accountId }) {
                       <p>Phone: {donation.owner.phone}</p>
                       <p>Zip: {donation.owner.zip}</p>
                     </div>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleEditButtonClick(donation.id)}
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
               </div>
@@ -90,8 +102,13 @@ function MyDonationList({ accountId }) {
           </div>
         ))}
       </div>
+      {/* {selectedDonationId && (
+        <EditMyDonation donationId={selectedDonationId} accountId={accountId} />
+      )} */}
     </div>
   );
 }
 
 export default MyDonationList;
+
+

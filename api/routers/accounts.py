@@ -65,14 +65,6 @@ async def get_account_data(
         return AccountOut(**account)
 
 
-@router.get("/api/accountdata", response_model=AccountOut | None)
-async def get_account_data(
-    account: AccountOut = Depends(authenticator.try_get_current_account_data),
-) -> AccountOut | None:
-    if account:
-        return AccountOut(**account)
-
-
 @router.get("/api/accounts/{user_id}", response_model=Optional[AccountOut])
 def get_account(
     user_id: int,

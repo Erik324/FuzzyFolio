@@ -1,5 +1,6 @@
 import os
 from .accounts import AccountOut
+from .accounts import AccountOut
 from psycopg_pool import ConnectionPool
 from typing import List, Optional, Union
 from pydantic import BaseModel

@@ -15,6 +15,7 @@ import MyDonationList from "./MyDonationList";
 import DonationForm from "./DonationForm";
 import MyPets from "./MyPets";
 import PetDetail from "./PetDetail";
+import EditMyDonation from "./EditMyDonation";
 
 function App({ baseUrl }) {
   const domain = /https:\/\/[^/]+/;
@@ -91,6 +92,10 @@ function App({ baseUrl }) {
           <Route
             path="/donations/createDonation"
             element={<DonationForm accountId={userId} />}
+          ></Route>
+          <Route
+            path="/donations/editDonation/:donationId"
+            element={<EditMyDonation accountId={userId} />}
           ></Route>
           <Route path="/pets" element={<MyPets userId={userId} />}>
             <Route

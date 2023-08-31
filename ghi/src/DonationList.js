@@ -8,7 +8,7 @@ function DonationList() {
     if (response.ok) {
       const data = await response.json();
       setDonations(data.donations);
-      console.log(donations);
+    //   console.log(donations);
     }
   }
 
@@ -16,7 +16,6 @@ function DonationList() {
   useEffect(() => {
     getDonations();
   }, []);
-
 
   const createColumns = (array, columnsCount) => {
     const result = [];
@@ -32,9 +31,9 @@ function DonationList() {
     <div className="donation-list mt-5 pt-5">
       <div className="container">
         {donationColumns.map((column, columnIndex) => (
-          <div key={`column-${columnIndex}`} className="row">
+          <div key={columnIndex} className="row">
             {column.map((donation) => (
-              <div key={`donation-${donation.id}`} className="col-md-4">
+              <div key={donation.id} className="col-md-4">
                 <div className="card mb-3 p-3">
                   <div className="card-body">
                     <h5 className="card-title">{donation.item_name}</h5>

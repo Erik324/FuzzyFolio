@@ -26,7 +26,7 @@ class VaccineOut(VaccineIn):
 
 
 class VaccineListOut(BaseModel):
-    vaccines: list[VaccineOut]
+    vaccines: List[VaccineOut]
 
 
 class VaccineOwner(BaseModel):
