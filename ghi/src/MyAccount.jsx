@@ -1,5 +1,6 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
+import DeleteAccount from "./DeleteAccount";
 
 function MyAccount({ userId }) {
   const { fetchWithToken, token } = useToken();
@@ -44,7 +45,9 @@ function MyAccount({ userId }) {
 
   return (
     <div className="px-4 py-5 my-5 text-center">
-      <div className="container">{token && accountView}</div>
+      <div className="container">
+        {token && accountView} {token && <DeleteAccount userId={userId} />}
+      </div>
     </div>
   );
 }

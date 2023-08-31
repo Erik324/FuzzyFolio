@@ -71,15 +71,10 @@ function App({ baseUrl }) {
         <TitleBar />
         <Routes>
           <Route index path="/" element={<Homepage />}></Route>
-          <Route exact path="/login" element={<Main />}></Route>
-          <Route exact path="/signup" element={<SignupForm />}></Route>
+          <Route path="/login" element={<Main />}></Route>
+          <Route path="/signup" element={<SignupForm />}></Route>
+          <Route path="/myaccount" element={<MyAccount userId={userId} />} />
           <Route
-            exact
-            path="/myaccount"
-            element={<MyAccount userId={userId} />}
-          />
-          <Route
-            exact
             path="/pets/new"
             element={<PetForm userId={userId} baseUrl={baseUrl} />}
           ></Route>
