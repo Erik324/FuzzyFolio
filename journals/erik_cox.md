@@ -1,0 +1,1 @@
+8/30/23- Worked on unit tests today, was having trouble with authentication, was getting 401 response when i should be getting 200. I focused on how the pets router code was handled and made a tweak from get_account_data to get_current_account_data in the test code and it started passing.
