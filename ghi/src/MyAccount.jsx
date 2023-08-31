@@ -1,19 +1,26 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DeleteAccount from "./DeleteAccount";
 
 function MyAccount({ userId }) {
   const { fetchWithToken, token } = useToken();
   const [account, setAccount] = useState({});
+  const navigate = useNavigate();
 
   async function getAccountDetails() {
     if (token) {
       const url = `${process.env.REACT_APP_API_HOST}/api/accounts/${userId}`;
       const response = await fetchWithToken(url, "get");
-      console.log(response);
       setAccount(response);
     }
   }
+
+  function editButton(event) {
+    event.preventDefault();
+    navigate("/myaccount/edit");
+  }
+
   useEffect(() => {
     getAccountDetails();
   }, [userId]);
@@ -35,7 +42,17 @@ function MyAccount({ userId }) {
             </h5>
             <p className="mb-1">Username: {account.username}</p>
             <p className="mb-1">Phone: {account.phone}</p>
-            <p className="mb-1">Phone: {account.zip}</p>
+            <p className="mb-1">ZIP Code: {account.zip}</p>
+            <div className="mt-5">
+              <button
+                onClick={editButton}
+                type="button"
+                className="btn btn-outline-primary mx-3"
+              >
+                Edit
+              </button>
+              <DeleteAccount userId={userId} />
+            </div>
           </div>
         </div>
       </div>
@@ -45,9 +62,7 @@ function MyAccount({ userId }) {
 
   return (
     <div className="px-4 py-5 my-5 text-center">
-      <div className="container">
-        {token && accountView} {token && <DeleteAccount userId={userId} />}
-      </div>
+      <div className="container">{token && accountView}</div>
     </div>
   );
 }

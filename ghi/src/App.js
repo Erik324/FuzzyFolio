@@ -13,6 +13,7 @@ import PetForm from "./PetForm";
 import DonationList from "./DonationList";
 import MyDonationList from "./MyDonationList";
 import DonationForm from "./DonationForm";
+import EditAccount from "./EditAccount";
 import MyPets from "./MyPets";
 import PetDetail from "./PetDetail";
 import EditMyDonation from "./EditMyDonation";
@@ -45,6 +46,7 @@ function App({ baseUrl }) {
 
   const [userId, setUserId] = useState("");
   const { fetchWithToken, token } = useToken();
+  const [user, setUser] = useState({});
   const getAccountData = async () => {
     if (token) {
       const response = await fetchWithToken(
@@ -71,9 +73,12 @@ function App({ baseUrl }) {
         <TitleBar />
         <Routes>
           <Route index path="/" element={<Homepage />}></Route>
-          <Route path="/login" element={<Main />}></Route>
-          <Route path="/signup" element={<SignupForm />}></Route>
-          <Route path="/myaccount" element={<MyAccount userId={userId} />} />
+          <Route exact path="/login" element={<Main />}></Route>
+          <Route exact path="/signup" element={<SignupForm />}></Route>
+          <Route path="myaccount">
+            <Route index element={<MyAccount userId={userId} />}></Route>
+            <Route path="edit" element={<EditAccount userId={userId} />} />
+          </Route>
           <Route
             path="/pets/new"
             element={<PetForm userId={userId} baseUrl={baseUrl} />}

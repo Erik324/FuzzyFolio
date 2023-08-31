@@ -28,6 +28,10 @@ function DeleteAccount({ userId }) {
     }
   };
 
-  return <button onClick={deleteAccount}>Delete Account</button>;
+  return (
+    <button className="btn btn-outline-danger mx-3" onClick={deleteAccount}>
+      Delete Account
+    </button>
+  );
 }
 export default DeleteAccount;
