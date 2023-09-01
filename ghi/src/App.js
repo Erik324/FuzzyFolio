@@ -17,6 +17,9 @@ import EditAccount from "./EditAccount";
 import MyPets from "./MyPets";
 import PetDetail from "./PetDetail";
 import EditMyDonation from "./EditMyDonation";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme();
 
 function App({ baseUrl }) {
   const domain = /https:\/\/[^/]+/;
@@ -66,47 +69,49 @@ function App({ baseUrl }) {
   }, [userId]);
 
   return (
-    <BrowserRouter basename={basename}>
-      <div>
-        {/* <ErrorNotification error={error} />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter basename={basename}>
+        <div>
+          {/* <ErrorNotification error={error} />
         <Construct info={launchInfo} /> */}
-        <TitleBar />
-        <Routes>
-          <Route index path="/" element={<Homepage />}></Route>
-          <Route exact path="/login" element={<Main />}></Route>
-          <Route exact path="/signup" element={<SignupForm />}></Route>
-          <Route path="myaccount">
-            <Route index element={<MyAccount userId={userId} />}></Route>
-            <Route path="edit" element={<EditAccount userId={userId} />} />
-          </Route>
-          <Route
-            path="/pets/new"
-            element={<PetForm userId={userId} baseUrl={baseUrl} />}
-          ></Route>
-          <Route exact path="/donations" element={<DonationList />}></Route>
-          <Route
-            exact
-            path="/mydonations/"
-            element={<MyDonationList accountId={userId} />}
-          ></Route>
-          <Route
-            path="/donations/createDonation"
-            element={<DonationForm accountId={userId} />}
-          ></Route>
-          <Route
-            path="/donations/editDonation/:donationId"
-            element={<EditMyDonation accountId={userId} />}
-          ></Route>
-          <Route path="/pets">
-            <Route index element={<MyPets userId={userId} />}></Route>
+          <TitleBar />
+          <Routes>
+            <Route index path="/" element={<Homepage />}></Route>
+            <Route exact path="/login" element={<Main />}></Route>
+            <Route exact path="/signup" element={<SignupForm />}></Route>
+            <Route path="myaccount">
+              <Route index element={<MyAccount userId={userId} />}></Route>
+              <Route path="edit" element={<EditAccount userId={userId} />} />
+            </Route>
             <Route
-              path=":petId"
-              element={<PetDetail userId={userId} />}
+              path="/pets/new"
+              element={<PetForm userId={userId} baseUrl={baseUrl} />}
             ></Route>
-          </Route>
-        </Routes>
-      </div>
-    </BrowserRouter>
+            <Route exact path="/donations" element={<DonationList />}></Route>
+            <Route
+              exact
+              path="/mydonations/"
+              element={<MyDonationList accountId={userId} />}
+            ></Route>
+            <Route
+              path="/donations/createDonation"
+              element={<DonationForm accountId={userId} />}
+            ></Route>
+            <Route
+              path="/donations/editDonation/:donationId"
+              element={<EditMyDonation accountId={userId} />}
+            ></Route>
+            <Route path="/pets">
+            <Route index element={<MyPets userId={userId} />}></Route>
+              <Route
+                path=":petId"
+                element={<PetDetail userId={userId} />}
+              ></Route>
+            </Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

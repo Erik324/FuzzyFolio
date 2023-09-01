@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import EditMyDonation from "./EditMyDonation";
 import { useNavigate } from "react-router-dom";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 
@@ -61,40 +64,82 @@ function MyDonationList({ accountId }) {
     navigate(`/donations/editDonation/${donationId}`);
   };
 
+  const handleDeleteButtonClick = async (donationId) => {
+    const deleteUrl = `${process.env.REACT_APP_API_HOST}/api/donations/${donationId}`;
+    const response = await fetch(deleteUrl, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      getDonations();
+    } else {
+      console.error("Failed to delete donation.");
+    }
+  };
+
   return (
-    <div className="donation-list mt-5 pt-5">
+    <div className="donation-list px-4 py-5 my-5 text-center">
       <div className="container">
         {donationColumns.map((column, columnIndex) => (
           <div key={columnIndex} className="row">
             {column.map((donation) => (
               <div key={donation.id} className="col-md-4">
                 <div className="card mb-3 p-3">
+                  <img
+                    src={donation.picture}
+                    alt={donation.item_name}
+                    className="card-img-top"
+                  />
                   <div className="card-body">
                     <h5 className="card-title">{donation.item_name}</h5>
                     <p className="card-text">{donation.description}</p>
-                    <p className="card-text">Date: {donation.date}</p>
-                    <img
-                      src={donation.picture}
-                      alt={donation.item_name}
-                      style={{ width: "200px", height: "200px" }}
-                      className="card-img-top"
-                    />
                     <p className="card-text">Category: {donation.category}</p>
                     <p className="card-text">
-                      Claimed: {donation.claimed ? "Yes" : "No"}
+                      Available:
+                      {donation.claimed ? (
+                        <>
+                          <CloseIcon style={{ fontSize: 18, color: "red" }} />
+                        </>
+                      ) : (
+                        <>
+                          <CheckIcon style={{ fontSize: 18, color: "green" }} />
+                        </>
+                      )}
                     </p>
                     <div className="owner-info">
-                      <p>Owner:</p>
                       <p>Username: {donation.owner.username}</p>
                       <p>Phone: {donation.owner.phone}</p>
                       <p>Zip: {donation.owner.zip}</p>
                     </div>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleEditButtonClick(donation.id)}
-                    >
-                      Edit
-                    </button>
+                    <div className="card-footer" id="my-donation-custom-card-footer">
+                      <h5>
+                        <EventNoteIcon
+                          style={{ fontSize: 24, color: "blue" }}
+                        />
+                      </h5>
+                      <p
+                        className="card-text"
+                        id="card-created-date"
+                        style={{ marginTop: "10px" }}
+                      >
+                        Available Date: {donation.date}
+                      </p>
+                      <button
+                        className="btn btn-outline-primary btn-sm"
+                        onClick={() => handleEditButtonClick(donation.id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-outline-danger btn-sm"
+                        onClick={() => handleDeleteButtonClick(donation.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -102,9 +147,6 @@ function MyDonationList({ accountId }) {
           </div>
         ))}
       </div>
-      {/* {selectedDonationId && (
-        <EditMyDonation donationId={selectedDonationId} accountId={accountId} />
-      )} */}
     </div>
   );
 }
