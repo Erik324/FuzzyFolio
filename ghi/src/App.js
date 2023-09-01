@@ -97,9 +97,10 @@ function App({ baseUrl }) {
             path="/donations/editDonation/:donationId"
             element={<EditMyDonation accountId={userId} />}
           ></Route>
-          <Route path="/pets" element={<MyPets userId={userId} />}>
+          <Route path="/pets">
+            <Route index element={<MyPets userId={userId} />}></Route>
             <Route
-              path="{pet_id}"
+              path=":petId"
               element={<PetDetail userId={userId} />}
             ></Route>
           </Route>

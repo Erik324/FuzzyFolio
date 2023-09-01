@@ -1,10 +1,14 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
+// import PetDetail from "./PetDetail";
+import { useNavigate } from "react-router-dom";
 
 function MyPets({ userId }) {
   const { token, fetchWithToken } = useToken();
   const [pets, setPets] = useState([]);
   const [myPets, setMyPets] = useState([]);
+  const [selectedPetId, setSelectedPetId] = useState(null);
+  const navigate = useNavigate();
 
   const getPets = async () => {
     if (token) {
@@ -22,6 +26,11 @@ function MyPets({ userId }) {
     // console.log("filteredPets", filteredPets);
   }
 
+  function handleOnePetClick(petId) {
+    setSelectedPetId(petId);
+    navigate(`/pets/${petId}`);
+  }
+
   useEffect(() => {
     getPets();
   }, [token]);
@@ -33,7 +42,7 @@ function MyPets({ userId }) {
   return (
     <div className="p-4 mt-4">
       <h1>My Pets</h1>
-      <table className="table table-striped">
+      <table className="table table-hover table-striped">
         <thead>
           <tr>
             <th>Pet Name</th>
@@ -44,7 +53,9 @@ function MyPets({ userId }) {
             myPets.map((pet) => {
               return (
                 <tr key={pet.id}>
-                  <td>{pet.pet_name}</td>
+                  <td onClick={() => handleOnePetClick(pet.id)}>
+                    {pet.pet_name}
+                  </td>
                 </tr>
               );
             })}
