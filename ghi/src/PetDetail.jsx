@@ -7,7 +7,7 @@ function PetDetail({ userId }) {
   const { token, fetchWithToken } = useToken();
   const [pet, setPet] = useState([]);
   const { petId } = useParams();
-  const [editPetId, setEditPetId] = useState(null);
+  // const [editPetId, setEditPetId] = useState(null);
   const navigate = useNavigate();
 
   const getOnePet = async () => {
@@ -19,8 +19,8 @@ function PetDetail({ userId }) {
     }
   };
 
-  function handleEditPet(petId) {
-    setEditPetId(petId);
+  function handleEditPet(event) {
+    event.preventDefault();
     navigate(`/pets/${petId}/edit`);
   }
 
@@ -54,19 +54,18 @@ function PetDetail({ userId }) {
             </ul>
             <ul className="card-text">Description: {pet.description}</ul>
             <div className="d-flex justify-content-end">
-              <a
-                onClick={() => handleEditPet(pet.id)}
-                href="#"
+              <button
+                onClick={handleEditPet}
+                type="button"
                 className="btn btn-primary"
               >
                 Edit
-              </a>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    // }
   );
 }
 

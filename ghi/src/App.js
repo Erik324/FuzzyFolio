@@ -17,6 +17,7 @@ import EditAccount from "./EditAccount";
 import MyPets from "./MyPets";
 import PetDetail from "./PetDetail";
 import EditMyDonation from "./EditMyDonation";
+import EditMyPet from "./EditMyPet";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
@@ -102,11 +103,12 @@ function App({ baseUrl }) {
               element={<EditMyDonation accountId={userId} />}
             ></Route>
             <Route path="/pets">
-            <Route index element={<MyPets userId={userId} />}></Route>
+              <Route index element={<MyPets userId={userId} />}></Route>
+              <Route path=":petId" element={<PetDetail userId={userId} />} />
               <Route
-                path=":petId"
-                element={<PetDetail userId={userId} />}
-              ></Route>
+                path=":petId/edit"
+                element={<EditMyPet userId={userId} />}
+              />
             </Route>
           </Routes>
         </div>
