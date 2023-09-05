@@ -29,6 +29,21 @@ function PetDetail({ userId }) {
     navigate(`/pets/${petId}/addVaccine`);
   }
 
+  const handleDeletePet = async (petId) => {
+    const deletePetUrl = `${process.env.REACT_APP_API_HOST}/api/pets/${petId}`;
+    const response = await fetch(deletePetUrl, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      navigate("/pets");
+    } else {
+      console.error("Failed to delete pet.");
+    }
+  };
+
   useEffect(() => {
     getOnePet();
   }, [token, petId]);
@@ -58,22 +73,29 @@ function PetDetail({ userId }) {
               Dietary Restriction: {pet.dietary_restriction}
             </ul>
             <ul className="card-text">Description: {pet.description}</ul>
-            <div className="d-flex justify-content-start align-items-end">
+            <div className="d-flex flex-column">
               <button
                 onClick={handleAddVaccine}
                 type="button"
-                className="btn btn-success"
+                className="btn btn-success mb-2"
+                // style={{ marginRight: "8px" }}
               >
                 Add Vaccine
               </button>
-            </div>
-            <div className="d-flex justify-content-end">
               <button
                 onClick={handleEditPet}
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary mb-2"
+                // style={{ marginRight: "8px" }}
               >
                 Edit
+              </button>
+              <button
+                onClick={() => handleDeletePet(pet.id)}
+                href="#"
+                className="btn btn-outline-danger mb-2"
+              >
+                Delete :(
               </button>
             </div>
           </div>

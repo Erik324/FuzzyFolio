@@ -1,6 +1,5 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-
 
 function DonationForm({ accountId }) {
   const { token, fetchWithToken } = useToken();
@@ -77,8 +76,8 @@ function DonationForm({ accountId }) {
       body: JSON.stringify(data),
     });
     if (response.ok) {
-    //   const newDonation = await response.json();
-    //   console.log(newDonation);
+      //   const newDonation = await response.json();
+      //   console.log(newDonation);
 
       setItemName("");
       setDescription("");
