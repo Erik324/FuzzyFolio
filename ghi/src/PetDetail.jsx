@@ -24,6 +24,11 @@ function PetDetail({ userId }) {
     navigate(`/pets/${petId}/edit`);
   }
 
+  function handleAddVaccine(event) {
+    event.preventDefault();
+    navigate(`/pets/${petId}/addVaccine`);
+  }
+
   useEffect(() => {
     getOnePet();
   }, [token, petId]);
@@ -53,6 +58,15 @@ function PetDetail({ userId }) {
               Dietary Restriction: {pet.dietary_restriction}
             </ul>
             <ul className="card-text">Description: {pet.description}</ul>
+            <div className="d-flex justify-content-start align-items-end">
+              <button
+                onClick={handleAddVaccine}
+                type="button"
+                className="btn btn-success"
+              >
+                Add Vaccine
+              </button>
+            </div>
             <div className="d-flex justify-content-end">
               <button
                 onClick={handleEditPet}

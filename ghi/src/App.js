@@ -19,6 +19,7 @@ import PetDetail from "./PetDetail";
 import EditMyDonation from "./EditMyDonation";
 import EditMyPet from "./EditMyPet";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import VaccineForm from "./VaccineForm.jsx";
 
 const theme = createTheme();
 
@@ -109,6 +110,7 @@ function App({ baseUrl }) {
                 path=":petId/edit"
                 element={<EditMyPet userId={userId} />}
               />
+              <Route path=":petId/addVaccine" element={<VaccineForm />} />
             </Route>
           </Routes>
         </div>
