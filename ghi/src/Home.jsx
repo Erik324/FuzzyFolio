@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 
+import animationData from "./dogAnimation.json";
+
+import { Player } from "@lottiefiles/react-lottie-player";
+
+import { catFacts } from "./cat_facts.js";
+
 function Homepage() {
   const [animalFact, setAnimalFact] = useState("");
 
@@ -14,14 +20,9 @@ function Homepage() {
         setAnimalFact(data.facts[0]);
       }
     } else {
-      const url = "https://meowfacts.herokuapp.com/";
-
-      const response = await fetch(url);
-
-      if (response.ok) {
-        const data = await response.json();
-        setAnimalFact(data.data);
-      }
+      const ran_num = Math.floor(Math.random() * 22);
+      const fact = catFacts[ran_num];
+      setAnimalFact(fact);
     }
   }
 
@@ -39,9 +40,25 @@ function Homepage() {
           width="100%"
         />
       </div>
-      <h1 className="display-5 fw-bold">Animal Fact</h1>
-      <div className="col-lg-6 mx-auto">
-        <p className="lead mb-4">{animalFact}</p>
+      <div className="container justify-content-center d-flex mt-1">
+        <div
+          className="card text-white"
+          style={{
+            borderRadius: "25px",
+            width: "950px",
+            backgroundColor: "#636464",
+          }}
+        >
+          <div className="row mx-5">
+            <div className="col-lg-6 mx-auto">
+              <h1 className="display-5 fw-bold">Animal Fact</h1>
+              <p className="lead mb-4">{animalFact}</p>
+            </div>
+            <div className="col">
+              <Player src={animationData} loop autoplay />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

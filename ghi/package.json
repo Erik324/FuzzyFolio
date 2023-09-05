@@ -6,6 +6,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@galvanize-inc/jwtdown-for-react": "^0.2.2",
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@mui/icons-material": "^5.14.7",
     "@mui/styled-engine": "^5.14.7",
     "@mui/system": "^5.14.7",
