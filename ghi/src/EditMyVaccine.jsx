@@ -12,7 +12,6 @@ function EditMyVaccine() {
   const { petId } = useParams();
   const { vaccineId } = useParams();
   const navigate = useNavigate();
-  const [vaccines, setVaccines] = useState("");
 
   function handleVaccineNameChange(event) {
     const { value } = event.target;

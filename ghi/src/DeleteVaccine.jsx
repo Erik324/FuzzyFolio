@@ -30,7 +30,7 @@ function DeleteVaccine({ vaccineId }) {
   };
 
   return (
-    <button className="btn btn-outline-danger mx-3" onClick={deleteVaccine}>
+    <button className="btn btn-outline-danger" onClick={deleteVaccine}>
       Delete Vaccine
     </button>
   );

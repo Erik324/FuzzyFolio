@@ -126,9 +126,7 @@ function PetDetail({ userId }) {
                     <ul>
                       {vaccines.map((vaccine) => (
                         <div key={vaccine.id} className="vaccine-record">
-                          <p>
-                            Vaccine Name{vaccine.id}: {vaccine.vaccine_name}
-                          </p>
+                          <p>Vaccine Name: {vaccine.vaccine_name}</p>
                           <p>Clinic: {vaccine.clinic}</p>
                           <p>Received Date: {vaccine.received_date}</p>
                           <p>Due Date: {vaccine.due_date}</p>
@@ -141,7 +139,7 @@ function PetDetail({ userId }) {
                               Edit Vaccine
                             </button>
                           </div>
-                          <div className="d-flex justify-content-start">
+                          <div className="text-right">
                             <DeleteVaccine vaccineId={vaccine.id} />
                           </div>
                         </div>
