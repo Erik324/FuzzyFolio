@@ -86,7 +86,7 @@ function MyDonationList({ accountId }) {
         {donationColumns.map((column, columnIndex) => (
           <div key={columnIndex} className="row">
             {column.map((donation) => (
-              <div key={donation.id} className="col-md-4">
+              <div key={donation.id} className="col-lg-4">
                 <div className="card mb-3 p-3">
                   <img
                     src={donation.picture}
@@ -95,8 +95,6 @@ function MyDonationList({ accountId }) {
                   />
                   <div className="card-body">
                     <h5 className="card-title">{donation.item_name}</h5>
-                    <p className="card-text">{donation.description}</p>
-                    <p className="card-text">Category: {donation.category}</p>
                     <p className="card-text">
                       Available:
                       {donation.claimed ? (
@@ -110,11 +108,15 @@ function MyDonationList({ accountId }) {
                       )}
                     </p>
                     <div className="owner-info">
-                      <p>Username: {donation.owner.username}</p>
+                      <p>Email: {donation.owner.username}</p>
                       <p>Phone: {donation.owner.phone}</p>
                       <p>Zip: {donation.owner.zip}</p>
+                      <p className="card-text">{donation.description}</p>
                     </div>
-                    <div className="card-footer" id="my-donation-custom-card-footer">
+                    <div
+                      className="card-footer"
+                      id="my-donation-custom-card-footer"
+                    >
                       <h5>
                         <EventNoteIcon
                           style={{ fontSize: 24, color: "blue" }}
