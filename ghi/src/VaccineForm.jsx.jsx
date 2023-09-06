@@ -3,7 +3,7 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 function VaccineForm() {
-  const { token, fetchWithToken } = useToken();
+  const { token } = useToken();
   const [vaccineName, setVaccineName] = useState("");
   const [clinic, setClinic] = useState("");
   const [receivedDate, setReceivedDate] = useState("");
@@ -19,8 +19,8 @@ function VaccineForm() {
       body: JSON.stringify({
         vaccine_name: vaccineName,
         clinic: clinic,
-        received_date: receivedDate,
-        due_date: dueDate,
+        received_date: receivedDate ? receivedDate : null,
+        due_date: dueDate ? dueDate : null,
         pet_id: petId,
       }),
       headers: {

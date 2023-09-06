@@ -2,6 +2,7 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import DeleteVaccine from "./DeleteVaccine";
 
 function PetDetail({ userId }) {
   const { token, fetchWithToken } = useToken();
@@ -117,10 +118,15 @@ function PetDetail({ userId }) {
                   <ul>
                     {vaccines.map((vaccine) => (
                       <div key={vaccine.id} className="vaccine-record">
-                        <p>Vaccine Name: {vaccine.vaccine_name}</p>
+                        <p>
+                          Vaccine Name{vaccine.id}: {vaccine.vaccine_name}
+                        </p>
                         <p>Clinic: {vaccine.clinic}</p>
                         <p>Received Date: {vaccine.received_date}</p>
                         <p>Due Date: {vaccine.due_date}</p>
+                        <div className="d-flex justify-content-start">
+                          <DeleteVaccine vaccineId={vaccine.id} />
+                        </div>
                       </div>
                     ))}
                   </ul>

@@ -20,6 +20,7 @@ import EditMyDonation from "./EditMyDonation";
 import EditMyPet from "./EditMyPet";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import VaccineForm from "./VaccineForm.jsx";
+import ProtectedRoute from "./ProtectedRoute";
 
 const theme = createTheme();
 
@@ -82,35 +83,90 @@ function App({ baseUrl }) {
             <Route exact path="/login" element={<Main />}></Route>
             <Route exact path="/signup" element={<SignupForm />}></Route>
             <Route path="myaccount">
-              <Route index element={<MyAccount userId={userId} />}></Route>
-              <Route path="edit" element={<EditAccount userId={userId} />} />
+              <Route
+                index
+                element={
+                  <ProtectedRoute token={token}>
+                    <MyAccount userId={userId} />
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path="edit"
+                element={
+                  <ProtectedRoute token={token}>
+                    <EditAccount userId={userId} />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
             <Route
               path="/pets/new"
-              element={<PetForm userId={userId} baseUrl={baseUrl} />}
+              element={
+                <ProtectedRoute token={token}>
+                  <PetForm userId={userId} baseUrl={baseUrl} />
+                </ProtectedRoute>
+              }
             ></Route>
             <Route exact path="/donations" element={<DonationList />}></Route>
             <Route
               exact
               path="/mydonations/"
-              element={<MyDonationList accountId={userId} />}
+              element={
+                <ProtectedRoute token={token}>
+                  <MyDonationList accountId={userId} />
+                </ProtectedRoute>
+              }
             ></Route>
             <Route
               path="/donations/createDonation"
-              element={<DonationForm accountId={userId} />}
+              element={
+                <ProtectedRoute token={token}>
+                  <DonationForm accountId={userId} />
+                </ProtectedRoute>
+              }
             ></Route>
             <Route
               path="/donations/editDonation/:donationId"
-              element={<EditMyDonation accountId={userId} />}
+              element={
+                <ProtectedRoute token={token}>
+                  <EditMyDonation accountId={userId} />
+                </ProtectedRoute>
+              }
             ></Route>
             <Route path="/pets">
-              <Route index element={<MyPets userId={userId} />}></Route>
-              <Route path=":petId" element={<PetDetail userId={userId} />} />
+              <Route
+                index
+                element={
+                  <ProtectedRoute token={token}>
+                    <MyPets userId={userId} />
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route
+                path=":petId"
+                element={
+                  <ProtectedRoute token={token}>
+                    <PetDetail userId={userId} />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path=":petId/edit"
-                element={<EditMyPet userId={userId} />}
+                element={
+                  <ProtectedRoute token={token}>
+                    <EditMyPet userId={userId} />
+                  </ProtectedRoute>
+                }
               />
-              <Route path=":petId/addVaccine" element={<VaccineForm />} />
+              <Route
+                path=":petId/addVaccine"
+                element={
+                  <ProtectedRoute token={token}>
+                    <VaccineForm />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
           </Routes>
         </div>
