@@ -21,6 +21,7 @@ import EditMyPet from "./EditMyPet";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import VaccineForm from "./VaccineForm.jsx";
 import ProtectedRoute from "./ProtectedRoute";
+import EditMyVaccine from "./EditMyVaccine";
 
 const theme = createTheme();
 
@@ -164,6 +165,14 @@ function App({ baseUrl }) {
                 element={
                   <ProtectedRoute token={token}>
                     <VaccineForm />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":petId/editVaccine/:vaccineId"
+                element={
+                  <ProtectedRoute token={token}>
+                    <EditMyVaccine />
                   </ProtectedRoute>
                 }
               />
