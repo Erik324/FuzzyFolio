@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import animationData from "./loginAnimation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 
-
 const LoginForm = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -13,7 +12,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   login(username, password);
+    login(username, password);
     e.target.reset();
     navigate("/");
   };
@@ -76,6 +75,5 @@ const LoginForm = () => {
     </div>
   );
 };
-
 
 export default LoginForm;

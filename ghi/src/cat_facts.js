@@ -23,7 +23,4 @@ const catFacts = [
   "There are cats who have more than 18 toes. These extra-digit felines are referred to as being “polydactyl.”",
 ];
 
-let ran_num = Math.floor(Math.random() * 22);
-let fact = catFacts[ran_num];
-
 export { catFacts };

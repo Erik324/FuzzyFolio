@@ -44,8 +44,6 @@ function EditMyVaccine() {
       const vaccineUrl = `${process.env.REACT_APP_API_HOST}/api/vaccines/${vaccineId}`;
       const response = await fetchWithToken(vaccineUrl, "GET");
 
-      //   console.log("vaccine response", response);
-
       setVaccineName(response.vaccine_name);
       setClinic(response.clinic);
       setReceivedDate(response.received_date);

@@ -1,5 +1,3 @@
-// import Construct from "./Construct.js";
-// import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import TitleBar from "./TitleBar";
 import SignupForm from "./SignupForm";
@@ -28,32 +26,9 @@ const theme = createTheme();
 function App({ baseUrl }) {
   const domain = /https:\/\/[^/]+/;
   const basename = process.env.PUBLIC_URL.replace(domain, "");
-  // const [userId, setUserId] = useState("");
-  // const [launchInfo, setLaunchInfo] = useState([]);
-  // const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   async function getData() {
-  //     let url = `${process.env.REACT_APP_API_HOST}/api/launch-details`;
-  //     console.log("fastapi url: ", url);
-  //     let response = await fetch(url);
-  //     console.log("------- hello? -------");
-  //     let data = await response.json();
-
-  //     if (response.ok) {
-  //       console.log("got launch data!");
-  //       setLaunchInfo(data.launch_details);
-  //     } else {
-  //       console.log("drat! something happened");
-  //       setError(data.message);
-  //     }
-  //   }
-  //   getData();
-  // }, []);
 
   const [userId, setUserId] = useState("");
   const { fetchWithToken, token } = useToken();
-  const [user, setUser] = useState({});
   const getAccountData = async () => {
     if (token) {
       const response = await fetchWithToken(
@@ -76,8 +51,6 @@ function App({ baseUrl }) {
     <ThemeProvider theme={theme}>
       <BrowserRouter basename={basename}>
         <div>
-          {/* <ErrorNotification error={error} />
-        <Construct info={launchInfo} /> */}
           <TitleBar />
           <Routes>
             <Route index path="/" element={<Homepage />}></Route>

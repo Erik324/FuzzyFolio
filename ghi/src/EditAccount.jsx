@@ -52,7 +52,7 @@ function EditAccount({ userId }) {
   async function handleButton(event) {
     event.preventDefault();
     setError(false);
-    if (zip.toString().length == 5) {
+    if (zip.toString().length === 5) {
       const data = {
         first_name: firstName,
         last_name: lastName,
@@ -97,7 +97,7 @@ function EditAccount({ userId }) {
             <div>{error && errorWindow}</div>
             <form className="card shadow p-4 mx-md-4" onSubmit={handleButton}>
               <h1>Edit Account</h1>
-              {/* <!-- 2 column grid layout with text inputs htmlFor the first and last names --> */}
+
               <div className="row mb-4">
                 <div className="col">
                   <div className="form-outline">
@@ -122,7 +122,6 @@ function EditAccount({ userId }) {
                       id="last_name"
                       className="form-control"
                       value={lastName}
-                      // placeholder={lastName}
                       onChange={handleLastNameChange}
                     />
                     <label className="form-label" htmlFor="last_name">
@@ -132,7 +131,6 @@ function EditAccount({ userId }) {
                 </div>
               </div>
 
-              {/* <!-- Text input --> */}
               <div className="form-outline mb-4">
                 <input
                   required
@@ -147,7 +145,6 @@ function EditAccount({ userId }) {
                 </label>
               </div>
 
-              {/* <!-- Text input --> */}
               <div className="form-outline mb-4">
                 <input
                   type="number"
@@ -163,7 +160,6 @@ function EditAccount({ userId }) {
                 </label>
               </div>
 
-              {/* <!-- Zip input --> */}
               <div className="form-outline mb-4">
                 <input
                   required
@@ -179,7 +175,6 @@ function EditAccount({ userId }) {
                 </label>
               </div>
 
-              {/* <!-- Submit button --> */}
               <button type="submit" className="btn btn-primary btn-block mb-4">
                 Update Account
               </button>

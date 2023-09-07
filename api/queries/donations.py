@@ -1,6 +1,5 @@
 import os
 from .accounts import AccountOut
-from .accounts import AccountOut
 from psycopg_pool import ConnectionPool
 from typing import List, Optional, Union
 from pydantic import BaseModel
@@ -124,7 +123,9 @@ class DonationQueries:
                     donations = []
                     rows = cur.fetchall()
                     for row in rows:
-                        donation = self.donation_record_to_dict(row, cur.description)
+                        donation = self.donation_record_to_dict(
+                            row, cur.description
+                        )
                         donations.append(donation)
                     return donations
 
@@ -167,7 +168,6 @@ class DonationQueries:
                     [id],
                 )
 
-
     def donation_record_to_dict(self, row, description) -> DonationOut | None:
         donation = None
         if row is not None:
@@ -200,5 +200,3 @@ class DonationQueries:
 
             donation["owner"] = AccountOut(**owner)
             return DonationOut(**donation)
-
-

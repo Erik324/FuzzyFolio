@@ -4,14 +4,12 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteVaccine from "./DeleteVaccine";
 
-function PetDetail({ userId }) {
+function PetDetail() {
   const { token, fetchWithToken } = useToken();
   const [pet, setPet] = useState([]);
   const { petId } = useParams();
-  // const [editPetId, setEditPetId] = useState(null);
   const navigate = useNavigate();
   const [vaccines, setVaccines] = useState([]);
-  const [vaccineId, setVaccineId] = useState("");
 
   const getOnePet = async () => {
     if (token) {
@@ -44,9 +42,7 @@ function PetDetail({ userId }) {
   }
 
   function handleEditVaccine(vaccineId) {
-    // event.preventDefault();
     navigate(`/pets/${petId}/editVaccine/${vaccineId}`);
-    setVaccineId(vaccineId);
   }
 
   const handleDeletePet = async (petId) => {
@@ -80,7 +76,7 @@ function PetDetail({ userId }) {
                   <img
                     className="card-img-top"
                     src={pet.picture}
-                    alt="card pet picture"
+                    alt="pet"
                   ></img>
                   <div className="card-body">
                     <h5 className="card-title">{pet.pet_name}</h5>
@@ -103,7 +99,6 @@ function PetDetail({ userId }) {
                         onClick={handleEditPet}
                         type="button"
                         className="btn btn-primary mb-2"
-                        // style={{ marginRight: "8px" }}
                       >
                         Edit Pet
                       </button>
@@ -150,7 +145,6 @@ function PetDetail({ userId }) {
                         onClick={handleAddVaccine}
                         type="button"
                         className="btn btn-success mb-2"
-                        // style={{ marginRight: "8px" }}
                       >
                         Add Vaccine
                       </button>

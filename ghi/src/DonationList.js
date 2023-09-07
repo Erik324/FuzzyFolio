@@ -11,10 +11,8 @@ function DonationList() {
     if (response.ok) {
       const data = await response.json();
       setDonations(data.donations);
-    //   console.log(donations);
     }
   }
-
 
   useEffect(() => {
     getDonations();

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 
 function DonationForm({ accountId }) {
-  const { token, fetchWithToken } = useToken();
+  const { token } = useToken();
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -41,20 +41,6 @@ function DonationForm({ accountId }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // if (!token) {
-    //   console.log("Please log in to create a donation.");
-    //   return;
-    // }
-    // console.log(token);
-
-    // const accountUrl = `${process.env.REACT_APP_API_HOST}/api/accounts/${accountId}`;
-    // const accountData = await fetchWithToken(accountUrl, "GET");
-    // if (accountData["id"] !== accountId) {
-    //   console.log(
-    //     "You are not authorized to create a donation for this account."
-    //   );
-    //   return;
-    // }
 
     const data = {
       item_name: itemName,
@@ -76,9 +62,6 @@ function DonationForm({ accountId }) {
       body: JSON.stringify(data),
     });
     if (response.ok) {
-      //   const newDonation = await response.json();
-      //   console.log(newDonation);
-
       setItemName("");
       setDescription("");
       setDate("");

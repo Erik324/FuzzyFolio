@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import EditMyDonation from "./EditMyDonation";
 import { useNavigate } from "react-router-dom";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-
-
 
 function MyDonationList({ accountId }) {
   const { token, fetchWithToken } = useToken();
   const navigate = useNavigate();
   const [donations, setDonations] = useState([]);
   const [isAuthorized, setIsAuthorized] = useState(true);
-  const [selectedDonationId, setSelectedDonationId] = useState(null);
-
 
   async function getDonations() {
     const url = `${process.env.REACT_APP_API_HOST}/api/donations`;
@@ -37,12 +32,10 @@ function MyDonationList({ accountId }) {
     }
   }
 
-
   useEffect(() => {
     getDonations();
     getAccountData();
   }, [token, accountId]);
-
 
   let donationColumns = [];
   if (isAuthorized) {
@@ -60,7 +53,6 @@ function MyDonationList({ accountId }) {
   }
 
   const handleEditButtonClick = (donationId) => {
-    setSelectedDonationId(donationId);
     navigate(`/donations/editDonation/${donationId}`);
   };
 
@@ -154,5 +146,3 @@ function MyDonationList({ accountId }) {
 }
 
 export default MyDonationList;
-
-

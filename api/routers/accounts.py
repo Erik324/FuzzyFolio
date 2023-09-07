@@ -49,13 +49,6 @@ async def get_token(
             "account": account,
         }
 
-@router.get("/api/accountdata", response_model=AccountOut | None)
-async def get_account_data(
-    account: AccountOut = Depends(authenticator.try_get_current_account_data),
-) -> AccountOut | None:
-    if account:
-        return AccountOut(**account)
-
 
 @router.get("/api/accountdata", response_model=AccountOut | None)
 async def get_account_data(
@@ -115,11 +108,6 @@ def update_account(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Cannot update account, username is already in use",
             )
-
-
-# @router.get("/api/accounts", response_model=AccountListOut)
-# def get_accounts(queries: AccountQueries = Depends()):
-#     return {"accounts": queries.get_all_accounts()}
 
 
 @router.post("/api/accounts", response_model=AccountToken | HttpError)

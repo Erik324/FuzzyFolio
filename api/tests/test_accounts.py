@@ -6,6 +6,7 @@ from routers.authenticator import authenticator
 
 client = TestClient(app)
 
+
 class AccountOutWithPassword(BaseModel):
     first_name: str
     last_name: str
@@ -14,6 +15,7 @@ class AccountOutWithPassword(BaseModel):
     zip: int
     id: int
     hashed_password: str
+
 
 def fake_get_current_account_data():
     return {
@@ -26,10 +28,13 @@ def fake_get_current_account_data():
         "hashed_password": "hashed_password_here",
     }
 
+
 def test_get_account():
-    # Arrange
-    app.dependency_overrides[authenticator.get_current_account_data] = fake_get_current_account_data
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = fake_get_current_account_data
     user_id = 1
+
     class FakeAccountQueries(AccountQueries):
         def get_account_by_id(self, id):
             return AccountOutWithPassword(
@@ -41,9 +46,9 @@ def test_get_account():
                 id=id,
                 hashed_password="password",
             )
+
     app.dependency_overrides[AccountQueries] = FakeAccountQueries
 
-    # Act
     response = client.get(f"/api/accounts/{user_id}")
     app.dependency_overrides = {}
 

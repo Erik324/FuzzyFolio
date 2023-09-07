@@ -56,7 +56,18 @@ class PetQueries:
                     cur.execute(
                         """
                         INSERT INTO pets (
-                        pet_name, picture, age, species, breed, color, weight, disease, medication, allergy, dietary_restriction, description, owner_id
+                        pet_name,
+                        picture,
+                        age,
+                        species,
+                        breed,
+                        color,
+                        weight,
+                        disease,
+                        medication,
+                        allergy,
+                        dietary_restriction,
+                        description, owner_id
                         )
                         VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         RETURNING id

@@ -3,7 +3,7 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-function EditMyDonation({ accountId}) {
+function EditMyDonation({ accountId }) {
   const { token, fetchWithToken } = useToken();
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
@@ -13,8 +13,6 @@ function EditMyDonation({ accountId}) {
   const [claimed, setClaimed] = useState("");
   const { donationId } = useParams();
   const navigate = useNavigate();
-
-//   console.log(donationId)
 
   function handleItemNameChange(event) {
     const { value } = event.target;
@@ -82,7 +80,7 @@ function EditMyDonation({ accountId}) {
       body: JSON.stringify(data),
     });
     if (response.ok) {
-    navigate(`/mydonations`);
+      navigate(`/mydonations`);
     }
   }
 

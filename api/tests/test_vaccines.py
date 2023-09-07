@@ -5,6 +5,7 @@ from routers.authenticator import authenticator
 
 client = TestClient(app)
 
+
 def fake_get_current_account_data():
     return {
         "first_name": "Eva",
@@ -16,20 +17,21 @@ def fake_get_current_account_data():
         "hashed_password": "hashed_password_here",
     }
 
+
 class FakeVaccineQueries(VaccineQueries):
     def get_vaccines(self):
         return []
 
-def test_get_all_vaccines():
-    app.dependency_overrides[authenticator.get_current_account_data] = fake_get_current_account_data
-    app.dependency_overrides[VaccineQueries] = FakeVaccineQueries
-    # Arrange
 
-    # Act
+def test_get_all_vaccines():
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = fake_get_current_account_data
+    app.dependency_overrides[VaccineQueries] = FakeVaccineQueries
+
     response = client.get("/api/vaccines")
 
     app.dependency_overrides = {}
 
-    # Assert
     assert response.status_code == 200
     assert response.json() == {"vaccines": []}

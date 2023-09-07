@@ -1,10 +1,9 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function DeleteVaccine({ vaccineId }) {
   const { token } = useToken();
   const navigate = useNavigate();
-  const { petId } = useParams();
 
   const deleteVaccine = async () => {
     console.log("vaccineId: ", vaccineId);
