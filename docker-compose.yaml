@@ -4,11 +4,11 @@ volumes:
 services:
   fastapi:
     environment:
-      CORS_HOST: https://fuzzyfolio.gitlab.io
       DATABASE_URL: postgresql://FuzzyFolio:FuzzyFolio@db/FuzzyFolio
       WAIT_HOSTS: db:5432
       PORT: 8000
       SIGNING_KEY: 87fe4a3fcfb60092dbaeb854a196bc3d9bc3d9b
+      CORS_HOST: https://fuzzyfolio.gitlab.io
     build:
       context: api
       dockerfile: Dockerfile.dev
