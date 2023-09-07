@@ -15,16 +15,18 @@ lint-test-job:
     - flake8 api
 
 # Run the unit tests
-# api-unit-tests-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd api
-#     - pip install -r requirements.txt
-#     - python -m pytest
-# # Build API Image:
+api-unit-tests-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  script:
+    - export SIGNING_KEY="87fe4a3fcfb60092dbaeb854a196bc3d9bc3d9b"
+    - export DATABASE_URL="postgresql://FuzzyFolio:FuzzyFolio@db/FuzzyFolio"
+    - cd api
+    - pip install -r requirements.txt
+    - python -m pytest
+# Build API Image:
 build-api-image:
   stage: build
   image: docker:git
