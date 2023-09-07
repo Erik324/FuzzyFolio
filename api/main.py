@@ -14,6 +14,7 @@ app.include_router(donations.router)
 
 origins = [
     "https://fuzzyfolio.gitlab.io",
+    "http://localhost",
     "http://localhost:3000",
     os.environ.get("CORS_HOST", None),
 ]
