@@ -77,7 +77,7 @@ function EditMyVaccine() {
 
   useEffect(() => {
     fetchVaccineData();
-  }, [token, petId]);
+  }, [token, petId]); // eslint-disable-line
 
   return (
     <div className="row px-4 py-5 my-5 text-center">

@@ -41,7 +41,7 @@ function App({ baseUrl }) {
   };
   useEffect(() => {
     getAccountData();
-  }, [token]);
+  }, [token]); // eslint-disable-line
 
   useEffect(() => {
     console.log("Account ID: ", userId);

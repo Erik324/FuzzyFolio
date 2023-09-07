@@ -23,7 +23,7 @@ function MyAccount({ userId }) {
 
   useEffect(() => {
     getAccountDetails();
-  }, [userId]);
+  }, [userId]); // eslint-disable-line
 
   const accountView = (
     <div className="row">

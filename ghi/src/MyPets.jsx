@@ -27,11 +27,11 @@ function MyPets({ userId }) {
 
   useEffect(() => {
     getPets();
-  }, [token]);
+  }, [token]); // eslint-disable-line
 
   useEffect(() => {
     filteredPets();
-  }, [pets]);
+  }, [pets]); // eslint-disable-line
 
   return (
     <div className="p-4 mt-4">

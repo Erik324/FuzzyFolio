@@ -55,7 +55,7 @@ function EditMyDonation({ accountId }) {
       setClaimed(response.claimed);
     }
     fetchDonationData();
-  }, [token, donationId]);
+  }, [token, donationId]); // eslint-disable-line
 
   async function handleSubmit(event) {
     event.preventDefault();

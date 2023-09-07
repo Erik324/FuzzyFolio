@@ -122,7 +122,7 @@ function EditMyPet({ userId }) {
 
   useEffect(() => {
     getPetDetails();
-  }, [token, petId]);
+  }, [token, petId]); // eslint-disable-line
 
   return (
     <div className="card text-bg-light mb-3">

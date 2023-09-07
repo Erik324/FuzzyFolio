@@ -35,7 +35,7 @@ function MyDonationList({ accountId }) {
   useEffect(() => {
     getDonations();
     getAccountData();
-  }, [token, accountId]);
+  }, [token, accountId]); // eslint-disable-line
 
   let donationColumns = [];
   if (isAuthorized) {

@@ -80,7 +80,7 @@ function EditAccount({ userId }) {
 
   useEffect(() => {
     getAccountDetails();
-  }, [userId]);
+  }, [userId]); // eslint-disable-line
 
   const errorWindow = (
     <div>

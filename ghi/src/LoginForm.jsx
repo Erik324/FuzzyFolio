@@ -61,7 +61,7 @@ const LoginForm = () => {
             </div>
 
             <div className="text-center p-t-136">
-              <a className="txt2">
+              <a className="txt2" href="/signup">
                 Create your Account
                 <i
                   className="fa fa-long-arrow-right m-l-5"
