@@ -85,7 +85,7 @@ function EditMyDonation({ accountId }) {
   }
 
   return (
-    <div className="row">
+    <div className="row px-4 py-5 my-5 text-center">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
           <h1>Edit Donation</h1>

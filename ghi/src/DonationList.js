@@ -43,7 +43,6 @@ function DonationList() {
                   />
                   <div className="card-body">
                     <h5 className="card-title">{donation.item_name}</h5>
-                    <p className="card-text">{donation.description}</p>
                     <p className="card-text">
                       Available:
                       {donation.claimed ? (
@@ -60,6 +59,7 @@ function DonationList() {
                       <p>Email: {donation.owner.username}</p>
                       <p>Phone: {donation.owner.phone}</p>
                       <p>Zip: {donation.owner.zip}</p>
+                      <p className="card-text">{donation.description}</p>
                     </div>
                     <div className="card-footer" id="custom-card-footer">
                       <h5>

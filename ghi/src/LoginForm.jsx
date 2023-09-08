@@ -1,7 +1,7 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import animationData from "./loginAnimation.json";
+import animationData from "./signupAnimation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 const LoginForm = () => {
@@ -31,6 +31,7 @@ const LoginForm = () => {
             <div className="wrap-input100">
               <input
                 className="input100"
+                required
                 type="text"
                 name="username"
                 placeholder="Username"
@@ -45,6 +46,7 @@ const LoginForm = () => {
             <div className="wrap-input100">
               <input
                 className="input100"
+                required
                 type="password"
                 name="pass"
                 placeholder="Password"
@@ -61,8 +63,11 @@ const LoginForm = () => {
             </div>
 
             <div className="text-center p-t-136">
-              <a className="txt2" href="/signup">
-                Create your Account
+              <a
+                href="https://fuzzyfolio.gitlab.io/fuzzy-folio/signup"
+                className="txt2"
+              >
+                No Account? Sign Up
                 <i
                   className="fa fa-long-arrow-right m-l-5"
                   aria-hidden="true"
@@ -75,5 +80,7 @@ const LoginForm = () => {
     </div>
   );
 };
+
+
 
 export default LoginForm;

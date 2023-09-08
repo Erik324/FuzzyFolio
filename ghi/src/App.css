@@ -1,8 +1,23 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:700');
 /* @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700'); */
 
+.donation-custom {
+  background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+}
 
-/*---------------------------------------------*/
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+.card-registration .select-arrow {
+  top: 13px;
+}
+.create-donation-box-height {
+height: 500px;
+}
+/* --------------------------------LOGIN/SIGNUP Styling */
 a {
 	font-size: 14px;
 	line-height: 1.7;
@@ -23,7 +38,7 @@ a:hover {
   color: #6862d5;
 }
 
-/*---------------------------------------------*/
+
 input {
 	outline: none;
 	border: none;
@@ -91,7 +106,7 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 50px;
   background: #9053c7;
   background: -webkit-linear-gradient(-135deg, #ff512f, #dd2476);
   background: -o-linear-gradient(-135deg, #ff512f, #dd2476);
@@ -104,7 +119,6 @@ iframe {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -112,13 +126,28 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 177px 130px 33px 95px;
+  padding: 50px 130px 33px 95px;
 }
 
+.wrap-signup100 {
+  width: 960px;
+  height: 600px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 50px 130px 5px 95px;
+}
 /*------------------------------------------------------------------
 [  ]*/
 .login100-pic {
-  width: 316px;
+  width: 350px;
 }
 
 .login100-pic img {
@@ -144,6 +173,17 @@ iframe {
   padding-bottom: 54px;
 }
 
+.signup100-form-title {
+  font-family: Poppins-Bold;
+  font-size: 24px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+
+  width: 100%;
+  display: block;
+  padding-bottom: 18px;
+}
 
 /*---------------------------------------------*/
 .wrap-input100 {
@@ -164,71 +204,6 @@ iframe {
   height: 50px;
   border-radius: 25px;
   padding: 0 30px 0 68px;
-}
-
-
-/*------------------------------------------------------------------
-[ Focus ]*/
-.focus-input100 {
-  display: block;
-  position: absolute;
-  border-radius: 25px;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 0px 0px 0px;
-  color: rgba(#6862d5);
-}
-
-.input100:focus + .focus-input100 {
-  -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
-  animation: anim-shadow 0.5s ease-in-out forwards;
-}
-
-@-webkit-keyframes anim-shadow {
-  to {
-    box-shadow: 0px 0px 70px 25px;
-    opacity: 0;
-  }
-}
-
-@keyframes anim-shadow {
-  to {
-    box-shadow: 0px 0px 70px 25px;
-    opacity: 0;
-  }
-}
-
-.symbol-input100 {
-  font-size: 15px;
-
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  align-items: center;
-  position: absolute;
-  border-radius: 25px;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding-left: 35px;
-  pointer-events: none;
-  color: #666666;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-}
-
-.input100:focus + .focus-input100 + .symbol-input100 {
-  color: #6862d5;
-  padding-left: 28px;
 }
 
 /*------------------------------------------------------------------
@@ -275,12 +250,8 @@ iframe {
   background: #333333;
 }
 
-
-
 /*------------------------------------------------------------------
 [ Responsive ]*/
-
-
 
 @media (max-width: 992px) {
   .wrap-login100 {
@@ -316,7 +287,7 @@ iframe {
   }
 }
 .p-t-136 {
-    padding-top: 80px;
+    padding-top: 20px;
 }
 .p-t-12 {padding-top: 12px;}
 /* ------------------------------------ */
@@ -329,9 +300,7 @@ iframe {
 
 
 
-
-
-
+/* -----------------donation styling */
 .App {
   text-align: center;
 }
@@ -406,3 +375,4 @@ iframe {
   border-bottom: 1px solid #ccc;
   padding-bottom: 1rem;
   }
+
