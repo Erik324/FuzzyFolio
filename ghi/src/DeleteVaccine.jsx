@@ -19,7 +19,7 @@ function DeleteVaccine({ vaccineId }) {
       const response = await fetch(url, fetchConfig);
       if (response.ok) {
         console.log("Vaccine has been deleted");
-        navigate(`/pets`);
+        navigate(0);
       } else {
         console.log(response);
       }

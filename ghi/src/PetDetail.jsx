@@ -54,6 +54,7 @@ function PetDetail() {
       },
     });
     if (response.ok) {
+      console.log("Pet has been deleted");
       navigate("/pets");
     } else {
       console.error("Failed to delete pet.");
