@@ -27,7 +27,7 @@ function PetDetail() {
 
   const getVaccinesForPet = async () => {
     if (token) {
-      const getVaccinesUrl = `${process.env.REACT_APP_API_HOST}/api/vaccines/`;
+      const getVaccinesUrl = `${process.env.REACT_APP_API_HOST}/api/vaccines`;
       const response = await fetchWithToken(getVaccinesUrl, "GET");
       const filteredVaccines = response.vaccines.filter(
         (vaccine) => vaccine.pet_id === parseInt(petId)
