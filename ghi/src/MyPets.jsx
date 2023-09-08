@@ -1,6 +1,7 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PetsIcon from "@mui/icons-material/Pets";
 
 function MyPets({ userId }) {
   const { token, fetchWithToken } = useToken();
@@ -25,6 +26,16 @@ function MyPets({ userId }) {
     navigate(`/pets/${petId}`);
   }
 
+  const makeColumns = (array, columnsCount) => {
+    const result = [];
+    for (let i = 0; i < array.length; i += columnsCount) {
+      result.push(array.slice(i, i + columnsCount));
+    }
+    return result;
+  };
+
+  const petColumns = makeColumns(myPets, 3);
+
   useEffect(() => {
     getPets();
   }, [token]); // eslint-disable-line
@@ -34,28 +45,44 @@ function MyPets({ userId }) {
   }, [pets]); // eslint-disable-line
 
   return (
-    <div className="p-4 mt-4">
-      <h1>My Pets</h1>
-      <table className="table table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Pet Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {token &&
-            myPets.map((pet) => {
-              return (
-                <tr key={pet.id}>
-                  <td onClick={() => handleOnePetClick(pet.id)}>
-                    {pet.pet_name}
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-    </div>
+    <section>
+      <div className="px-4 pt-5 mt-5 text-center">
+        {token && (
+          <div className="container">
+            <h1>My Pets</h1>
+            <div className="row">
+              {petColumns.map((column, columnIndex) => (
+                <div key={columnIndex} className="row">
+                  {column.map((pet) => (
+                    <div key={pet.id} className="col-lg-4">
+                      <div className="card mb-3 p-3">
+                        <img
+                          src={pet.picture}
+                          alt={pet.pet_name}
+                          onClick={() => handleOnePetClick(pet.id)}
+                          className="card-img-top"
+                        />
+                        <div className="card-body">
+                          <h5 className="card-title">
+                            {pet.pet_name}
+                            <PetsIcon style={{ fontSize: 21, color: "pink" }} />
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="air air1"></div>
+        <div class="air air2"></div>
+        <div class="air air3"></div>
+        <div class="air air4"></div>
+      </div>
+    </section>
   );
 }
 
