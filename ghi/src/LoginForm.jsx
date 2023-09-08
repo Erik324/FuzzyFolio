@@ -1,7 +1,7 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import animationData from "./signupAnimation.json";
+import animationData from "./loginAnimation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 const LoginForm = () => {
@@ -9,6 +9,8 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useToken();
+  const [error, setError] = useState("");
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

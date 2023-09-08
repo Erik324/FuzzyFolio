@@ -10,11 +10,11 @@ http://localhost:3000/  (locally)
 # Home Page
 ![Img](/docs/excalidraw/Home.png)
 
-# Edit Vaccine Page
+# Login Page
 ![Img](/docs/excalidraw/Login.png)
 
-# Edit Vaccine Page
-![Img](/docs/excalidraw/Signup)
+# Signup Page
+![Img](/docs/excalidraw/Signup.png)
 
 # Account Detail Page
 ![Img](/docs/excalidraw/Account_detail.png)
