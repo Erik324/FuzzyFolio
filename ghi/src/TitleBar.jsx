@@ -10,13 +10,25 @@ function Nav() {
 
   const myAccountButton = (
     <NavLink className="nav-link" to="/myaccount">
-      My Account
+      Account Details
     </NavLink>
   );
 
-  const logoutButton = <button onClick={logout}>Logout</button>;
-  const loginButton = <button onClick={handleLoginClick}>Login</button>;
-  const signupButton = <button onClick={handleClick}>Signup</button>;
+  const logoutButton = (
+    <button className="nav-link" onClick={logout}>
+      Logout
+    </button>
+  );
+  const loginButton = (
+    <button className="nav-link" onClick={handleLoginClick}>
+      Login
+    </button>
+  );
+  const signupButton = (
+    <button className="nav-link" onClick={handleClick}>
+      Signup
+    </button>
+  );
   return (
     <nav
       className="navbar navbar-light bg-body-tertiary fixed-top "
@@ -56,86 +68,64 @@ function Nav() {
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li className="nav-item">
-                <NavLink className="nav-link active" aria-current="page" to="/">
+                <NavLink className="nav-link" aria-current="page" to="/">
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item">{token && myAccountButton}</li>
-              <li className="nav-item">
-                {token && logoutButton}
-                {!token && signupButton}
-              </li>
+              <li className="nav-item">{!token && signupButton}</li>
               <li className="nav-item">{!token && loginButton}</li>
-              <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link dropdown-toggle"
-                  to="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </NavLink>
-                <ul className="dropdown-menu">
-                  <li>
-                    <NavLink className="dropdown-item" to="/pets/new">
-                      Add a Pet
+              {token && (
+                <>
+                  <li className="nav-item dropdown">
+                    <NavLink
+                      className="nav-link dropdown-toggle"
+                      to="#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      My Account
                     </NavLink>
-                  </li>
-                  <li>
-                    <NavLink className="dropdown-item" to="#">
-                      Another action
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink className="dropdown-item" to="/donations">
-                      Donation List
-                    </NavLink>
-                  </li>
-                  {token && (
-                    <>
-                      <li>
-                        <NavLink className="dropdown-item" to="/pets">
+                    <ul className="dropdown-menu">
+                      <li className="dropdown-item">
+                        {token && myAccountButton}
+                      </li>
+
+                      <li className="dropdown-item">
+                        <NavLink className="nav-link" to="/pets/new">
+                          Add a Pet
+                        </NavLink>
+                      </li>
+
+                      <li className="dropdown-item">
+                        <NavLink className="nav-link" to="/pets">
                           My Pets
                         </NavLink>
                       </li>
-                      <li>
+                      <li className="dropdown-item">
                         <NavLink
-                          className="dropdown-item"
+                          className="nav-link"
                           to="/donations/createDonation"
                         >
                           Create Donation
                         </NavLink>
                       </li>
-                      <li>
-                        <NavLink className="dropdown-item" to="/mydonations">
+                      <li className="dropdown-item">
+                        <NavLink className="nav-link" to="/mydonations">
                           My Donations
                         </NavLink>
                       </li>
-                    </>
-                  )}
-                  <li>
-                    <hr className="dropdown-divider" />
+                    </ul>
                   </li>
-                  <li>
-                    <NavLink className="dropdown-item" to="#">
-                      Something else here
-                    </NavLink>
-                  </li>
-                </ul>
+                </>
+              )}
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/donations">
+                  Donation List
+                </NavLink>
               </li>
+              <li className="nav-item">{token && logoutButton}</li>
             </ul>
-            <form className="d-flex mt-3" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
           </div>
         </div>
       </div>
