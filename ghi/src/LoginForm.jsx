@@ -9,7 +9,6 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useToken();
-  const [error, setError] = useState("");
 
 
   const handleSubmit = (e) => {
