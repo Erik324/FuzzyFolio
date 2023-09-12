@@ -43,10 +43,6 @@ function App({ baseUrl }) {
     getAccountData();
   }, [token]); // eslint-disable-line
 
-  useEffect(() => {
-    console.log("Account ID: ", userId);
-  }, [userId]);
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter basename={basename}>

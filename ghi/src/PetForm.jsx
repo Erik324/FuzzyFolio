@@ -112,159 +112,167 @@ function PetForm({ userId }) {
   };
 
   return (
-    <div className="card text-bg-light mb-3">
-      <h5 className="card-header">Add A Pet</h5>
-      <div className="card-body">
-        <form onSubmit={handleSubmit} id="create-pet-form">
-          <div className="mb-3">
-            <label className="form-label">Pet Name (required)</label>
-            <input
-              required
-              name="pet-name"
-              id="pet-name"
-              type="text"
-              className="form-control"
-              onChange={handlePetNameChange}
-              placeholder="Name"
-              value={petName}
-            />
+    <div className="px-4 py-5 my-5">
+      <div className="container" id="pf-view">
+        <div className="card text-bg-light mb-3">
+          <h5 className="card-header text-center">Add A Pet</h5>
+          <div className="card-body">
+            <form onSubmit={handleSubmit} id="create-pet-form">
+              <div className="mb-3">
+                <label className="form-label">Pet Name (required)</label>
+                <input
+                  required
+                  name="pet-name"
+                  id="pet-name"
+                  type="text"
+                  className="form-control"
+                  onChange={handlePetNameChange}
+                  placeholder="Name"
+                  value={petName}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Picture</label>
+                <input
+                  name="picture"
+                  id="picture"
+                  type="text"
+                  className="form-control"
+                  onChange={handlePictureChange}
+                  placeholder="picture url"
+                  value={picture}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Age</label>
+                <input
+                  name="age"
+                  id="age"
+                  type="number"
+                  className="form-control"
+                  onChange={handleAgeChange}
+                  value={age}
+                  placeholder="0"
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Species</label>
+                <input
+                  name="species"
+                  id="species"
+                  type="text"
+                  className="form-control"
+                  onChange={handleSpeciesChange}
+                  value={species}
+                  placeholder="Cat, Dog, etc."
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Breed</label>
+                <input
+                  name="breed"
+                  id="breed"
+                  type="text"
+                  className="form-control"
+                  onChange={handleBreedChange}
+                  value={breed}
+                  placeholder="Pug, Poodle, etc."
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Color</label>
+                <input
+                  name="color"
+                  id="color"
+                  type="text"
+                  className="form-control"
+                  onChange={handleColorChange}
+                  value={color}
+                  placeholder="White"
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Weight</label>
+                <input
+                  name="weight"
+                  id="weight"
+                  type="number"
+                  className="form-control"
+                  onChange={handleWeightChange}
+                  value={weight}
+                  placeholder="In lbs"
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Disease</label>
+                <input
+                  name="disease"
+                  id="disease"
+                  type="text"
+                  className="form-control"
+                  onChange={handleDiseaseChange}
+                  value={disease}
+                  placeholder="disease 1, disease 2,.."
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Medication</label>
+                <input
+                  name="medication"
+                  id="medication"
+                  type="text"
+                  className="form-control"
+                  onChange={handleMedicationChange}
+                  value={medication}
+                  placeholder="med 1, med 2,.."
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Allergies</label>
+                <input
+                  name="allergy"
+                  id="allergy"
+                  type="text"
+                  className="form-control"
+                  onChange={handleAllergyChange}
+                  value={allergy}
+                  placeholder="allergy 1, allergy 2,"
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Dietary Restrictions</label>
+                <input
+                  name="dietary-restriction"
+                  id="dietary-restriction"
+                  type="text"
+                  className="form-control"
+                  onChange={handleDietaryRestrictionChange}
+                  value={dietaryRestriction}
+                  placeholder="restr 1, restr 2,.."
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Description</label>
+                <input
+                  name="description"
+                  id="description"
+                  type="text"
+                  className="form-control"
+                  onChange={handleDescriptionChange}
+                  value={description}
+                  placeholder="story, behavior, other."
+                />
+              </div>
+              <div>
+                <input
+                  className="btn btn-primary"
+                  type="submit"
+                  value="Register"
+                />
+              </div>
+            </form>
           </div>
-          <div className="mb-3">
-            <label className="form-label">Picture</label>
-            <input
-              name="picture"
-              id="picture"
-              type="text"
-              className="form-control"
-              onChange={handlePictureChange}
-              placeholder="picture url"
-              value={picture}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Age</label>
-            <input
-              name="age"
-              id="age"
-              type="number"
-              className="form-control"
-              onChange={handleAgeChange}
-              value={age}
-              placeholder="0"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Species</label>
-            <input
-              name="species"
-              id="species"
-              type="text"
-              className="form-control"
-              onChange={handleSpeciesChange}
-              value={species}
-              placeholder="Cat, Dog, etc."
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Breed</label>
-            <input
-              name="breed"
-              id="breed"
-              type="text"
-              className="form-control"
-              onChange={handleBreedChange}
-              value={breed}
-              placeholder="Pug, Poodle, etc."
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Color</label>
-            <input
-              name="color"
-              id="color"
-              type="text"
-              className="form-control"
-              onChange={handleColorChange}
-              value={color}
-              placeholder="White"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Weight</label>
-            <input
-              name="weight"
-              id="weight"
-              type="number"
-              className="form-control"
-              onChange={handleWeightChange}
-              value={weight}
-              placeholder="In lbs"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Disease</label>
-            <input
-              name="disease"
-              id="disease"
-              type="text"
-              className="form-control"
-              onChange={handleDiseaseChange}
-              value={disease}
-              placeholder="disease 1, disease 2,.."
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Medication</label>
-            <input
-              name="medication"
-              id="medication"
-              type="text"
-              className="form-control"
-              onChange={handleMedicationChange}
-              value={medication}
-              placeholder="med 1, med 2,.."
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Allergies</label>
-            <input
-              name="allergy"
-              id="allergy"
-              type="text"
-              className="form-control"
-              onChange={handleAllergyChange}
-              value={allergy}
-              placeholder="allergy 1, allergy 2,"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Dietary Restrictions</label>
-            <input
-              name="dietary-restriction"
-              id="dietary-restriction"
-              type="text"
-              className="form-control"
-              onChange={handleDietaryRestrictionChange}
-              value={dietaryRestriction}
-              placeholder="restr 1, restr 2,.."
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Description</label>
-            <input
-              name="description"
-              id="description"
-              type="text"
-              className="form-control"
-              onChange={handleDescriptionChange}
-              value={description}
-              placeholder="story, behavior, other."
-            />
-          </div>
-          <div>
-            <input className="btn btn-primary" type="submit" value="Register" />
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

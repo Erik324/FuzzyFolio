@@ -6,7 +6,6 @@ function DeleteVaccine({ vaccineId }) {
   const navigate = useNavigate();
 
   const deleteVaccine = async () => {
-    console.log("vaccineId: ", vaccineId);
     const url = `${process.env.REACT_APP_API_HOST}/api/vaccines/${vaccineId}`;
     const fetchConfig = {
       method: "DELETE",
@@ -18,7 +17,6 @@ function DeleteVaccine({ vaccineId }) {
     try {
       const response = await fetch(url, fetchConfig);
       if (response.ok) {
-        console.log("Vaccine has been deleted");
         navigate(0);
       } else {
         console.log(response);

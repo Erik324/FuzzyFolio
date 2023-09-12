@@ -17,7 +17,6 @@ function DeleteAccount({ userId }) {
     try {
       const response = await fetch(url, fetchConfig);
       if (response.ok) {
-        console.log("Account has been deleted");
         logout();
         navigate("/");
       } else {

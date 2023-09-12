@@ -15,7 +15,6 @@ function PetDetail() {
     if (token) {
       const getPetUrl = `${process.env.REACT_APP_API_HOST}/api/pets/${petId}`;
       const response = await fetchWithToken(getPetUrl, "GET");
-      console.log("response", response);
       setPet(response);
     }
   };
@@ -54,7 +53,6 @@ function PetDetail() {
       },
     });
     if (response.ok) {
-      console.log("Pet has been deleted");
       navigate("/pets");
     } else {
       console.error("Failed to delete pet.");

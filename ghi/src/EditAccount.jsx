@@ -91,96 +91,92 @@ function EditAccount({ userId }) {
   return (
     <div className="form-outline mb-4">
       <div className="px-4 py-5 my-5 text-center">
-        <div className="row">
-          <div className="col"></div>
-          <div className="col-4">
-            <div>{error && errorWindow}</div>
-            <form className="card shadow p-4 mx-md-4" onSubmit={handleButton}>
-              <h1>Edit Account</h1>
+        <div className="container" id="ea-view">
+          <div>{error && errorWindow}</div>
+          <form className="card shadow p-4 mx-md-4" onSubmit={handleButton}>
+            <h1>Edit Account</h1>
 
-              <div className="row mb-4">
-                <div className="col">
-                  <div className="form-outline">
-                    <input
-                      type="text"
-                      id="first_name"
-                      className="form-control"
-                      value={firstName}
-                      onChange={handleFirstNameChange}
-                      required
-                    />
-                    <label className="form-label" htmlFor="first_name">
-                      First name
-                    </label>
-                  </div>
-                </div>
-                <div className="col">
-                  <div className="form-outline">
-                    <input
-                      required
-                      type="text"
-                      id="last_name"
-                      className="form-control"
-                      value={lastName}
-                      onChange={handleLastNameChange}
-                    />
-                    <label className="form-label" htmlFor="last_name">
-                      Last name
-                    </label>
-                  </div>
+            <div className="row mb-4">
+              <div className="col">
+                <div className="form-outline">
+                  <input
+                    type="text"
+                    id="first_name"
+                    className="form-control"
+                    value={firstName}
+                    onChange={handleFirstNameChange}
+                    required
+                  />
+                  <label className="form-label" htmlFor="first_name">
+                    First name
+                  </label>
                 </div>
               </div>
-
-              <div className="form-outline mb-4">
-                <input
-                  required
-                  type="email"
-                  id="username"
-                  className="form-control"
-                  value={username}
-                  onChange={handleUsernameChange}
-                />
-                <label className="form-label" htmlFor="username">
-                  Username (Email)
-                </label>
+              <div className="col">
+                <div className="form-outline">
+                  <input
+                    required
+                    type="text"
+                    id="last_name"
+                    className="form-control"
+                    value={lastName}
+                    onChange={handleLastNameChange}
+                  />
+                  <label className="form-label" htmlFor="last_name">
+                    Last name
+                  </label>
+                </div>
               </div>
+            </div>
 
-              <div className="form-outline mb-4">
-                <input
-                  type="number"
-                  minLength="10"
-                  maxLength="10"
-                  id="phone"
-                  className="form-control"
-                  value={phone}
-                  onChange={handlePhoneChange}
-                />
-                <label className="form-label" htmlFor="phone">
-                  Phone
-                </label>
-              </div>
+            <div className="form-outline mb-4">
+              <input
+                required
+                type="email"
+                id="username"
+                className="form-control"
+                value={username}
+                onChange={handleUsernameChange}
+              />
+              <label className="form-label" htmlFor="username">
+                Username (Email)
+              </label>
+            </div>
 
-              <div className="form-outline mb-4">
-                <input
-                  required
-                  type="number"
-                  id="zip"
-                  className="form-control"
-                  value={zip}
-                  onChange={handleZipChange}
-                  minLength={4}
-                />
-                <label className="form-label" htmlFor="zip">
-                  Zip
-                </label>
-              </div>
+            <div className="form-outline mb-4">
+              <input
+                type="number"
+                minLength="10"
+                maxLength="10"
+                id="phone"
+                className="form-control"
+                value={phone}
+                onChange={handlePhoneChange}
+              />
+              <label className="form-label" htmlFor="phone">
+                Phone
+              </label>
+            </div>
 
-              <button type="submit" className="btn btn-primary btn-block mb-4">
-                Update Account
-              </button>
-            </form>
-          </div>
-          <div className="col"></div>
+            <div className="form-outline mb-4">
+              <input
+                required
+                type="number"
+                id="zip"
+                className="form-control"
+                value={zip}
+                onChange={handleZipChange}
+                minLength={4}
+              />
+              <label className="form-label" htmlFor="zip">
+                Zip
+              </label>
+            </div>
+
+            <button type="submit" className="btn btn-primary btn-block mb-4">
+              Update Account
+            </button>
+          </form>
         </div>
       </div>
     </div>

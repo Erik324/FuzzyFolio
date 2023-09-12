@@ -46,9 +46,9 @@ function MyPets({ userId }) {
 
   return (
     <section>
-      <div className="px-4 pt-5 mt-5 text-center">
+      <div className="px-4 pt-5  text-center">
         {token && (
-          <div className="container">
+          <div className="container pt-5">
             <h1>My Pets</h1>
             <div className="row">
               {petColumns.map((column, columnIndex) => (
@@ -77,10 +77,10 @@ function MyPets({ userId }) {
           </div>
         )}
 
-        <div class="air air1"></div>
-        <div class="air air2"></div>
-        <div class="air air3"></div>
-        <div class="air air4"></div>
+        <div className="air air1"></div>
+        <div className="air air2"></div>
+        <div className="air air3"></div>
+        <div className="air air4"></div>
       </div>
     </section>
   );

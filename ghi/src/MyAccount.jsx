@@ -26,37 +26,33 @@ function MyAccount({ userId }) {
   }, [userId]); // eslint-disable-line
 
   const accountView = (
-    <div className="row">
-      <div className="col"></div>
-      <div className="col-6">
-        <div className="card mb-4">
-          <div className="shadow card-body text-center">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-              alt="avatar"
-              className="rounded-circle img-fluid"
-              width="150px"
-            />
-            <h5 className="my-3">
-              Name: {account.first_name} {account.last_name}
-            </h5>
-            <p className="mb-1">Username: {account.username}</p>
-            <p className="mb-1">Phone: {account.phone}</p>
-            <p className="mb-1">ZIP Code: {account.zip}</p>
-            <div className="mt-5">
-              <button
-                onClick={editButton}
-                type="button"
-                className="btn btn-outline-primary mx-3"
-              >
-                Edit
-              </button>
-              <DeleteAccount userId={userId} />
-            </div>
+    <div className="container" id="a-view">
+      <div className="card mb-4">
+        <div className="shadow card-body text-center">
+          <img
+            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+            alt="avatar"
+            className="rounded-circle img-fluid"
+            width="150px"
+          />
+          <h5 className="my-3">
+            Name: {account.first_name} {account.last_name}
+          </h5>
+          <p className="mb-1">Username: {account.username}</p>
+          <p className="mb-1">Phone: {account.phone}</p>
+          <p className="mb-1">ZIP Code: {account.zip}</p>
+          <div className="mt-5">
+            <button
+              onClick={editButton}
+              type="button"
+              className="btn btn-outline-primary mx-3"
+            >
+              Edit
+            </button>
+            <DeleteAccount userId={userId} />
           </div>
         </div>
       </div>
-      <div className="col"></div>
     </div>
   );
 

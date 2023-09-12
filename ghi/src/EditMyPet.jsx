@@ -20,8 +20,6 @@ function EditMyPet({ userId }) {
   const navigate = useNavigate();
   const { petId } = useParams();
 
-  console.log("petId: ", petId);
-
   const getPetDetails = async () => {
     if (token) {
       const petUrl = `${process.env.REACT_APP_API_HOST}/api/pets/${petId}`;
