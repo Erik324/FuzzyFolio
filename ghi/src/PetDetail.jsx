@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteVaccine from "./DeleteVaccine";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
 function PetDetail() {
   const { token, fetchWithToken } = useToken();
@@ -64,6 +65,19 @@ function PetDetail() {
     getVaccinesForPet();
   }, [token, petId]); // eslint-disable-line
 
+  const renderAlertIcon = (vaccine) => {
+    const dueDate = new Date(vaccine.due_date);
+    const currentDate = new Date();
+    const isDueDatePassed = dueDate < currentDate;
+
+    return isDueDatePassed ? (
+      <div>
+        <NotificationsActiveIcon style={{ fontSize: 18, color: "red" }} />
+        <span style={{ color: "red" }}>This vaccine is past due!</span>
+      </div>
+    ) : null;
+  };
+
   return (
     <div className="px-4 py-5 my-5 d-flex align-items-center justify-content-center">
       <div className="container">
@@ -124,6 +138,7 @@ function PetDetail() {
                           <p>Clinic: {vaccine.clinic}</p>
                           <p>Received Date: {vaccine.received_date}</p>
                           <p>Due Date: {vaccine.due_date}</p>
+                          {renderAlertIcon(vaccine)}
                           <div className="text-right">
                             <button
                               onClick={() => handleEditVaccine(vaccine.id)}

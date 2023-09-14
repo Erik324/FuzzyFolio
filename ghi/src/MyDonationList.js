@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import donationImage from "./donation1.png";
 
 function MyDonationList({ accountId }) {
   const { token, fetchWithToken } = useToken();
@@ -81,8 +82,11 @@ function MyDonationList({ accountId }) {
               <div key={donation.id} className="col-lg-4">
                 <div className="card mb-3 p-3">
                   <img
-                    src={donation.picture}
+                    src={donation.picture ? donation.picture : donationImage}
                     alt={donation.item_name}
+                    onError={(e) => {
+                      e.target.src = donationImage;
+                    }}
                     className="card-img-top"
                   />
                   <div className="card-body">
