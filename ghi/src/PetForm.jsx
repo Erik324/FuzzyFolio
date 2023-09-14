@@ -60,7 +60,7 @@ function PetForm({ userId }) {
     } else {
       console.log(response);
     }
-    navigate("/");
+    navigate("/pets");
   };
 
   const handlePetNameChange = (event) => {

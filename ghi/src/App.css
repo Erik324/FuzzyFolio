@@ -5,11 +5,7 @@
 
 .donation-custom {
   height: 100%;
-  background: linear-gradient(
-    to bottom right,
-    #92bcfc,
-    #c6d9f5
-  );
+  background: linear-gradient(to bottom right, #92bcfc, #c6d9f5);
 }
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
@@ -591,4 +587,30 @@ section .air.air4 {
   .slogan {
     font-size: 2.5vw;
   }
+}
+/*vaccine form styling*/
+
+.vaccine-background {
+  background: linear-gradient(
+    to bottom right,
+    rgb(118, 178, 223),
+    rgb(10, 237, 184)
+  );
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  width: 100%;
+}
+
+.vac-form-bg {
+  background: rgb(237, 245, 246);
+}
+
+#vax-form,
+#cat-anim {
+  max-width: 50vw;
+}
+
+#row-margin {
+  margin-top: 10vh;
 }
