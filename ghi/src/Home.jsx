@@ -5,6 +5,7 @@ import animationData from "./dogAnimation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 import { catFacts } from "./cat_facts.js";
+import Slooogan from "./typing";
 
 function Homepage() {
   const [animalFact, setAnimalFact] = useState("");
@@ -32,15 +33,19 @@ function Homepage() {
 
   return (
     <div className="spacer wave-1">
-      <div className="px-4 py-5 mt-5 text-center">
-        <div className="container">
+      <div className="px-4 py-5 text-center">
+        <div className="container mt-5" id="banner">
+          <p className="r-text">Fuzzy Folio</p>
+          <Slooogan />
+        </div>
+        {/* <div className="container">
           <img
             src="https://i.ibb.co/LhZ0207/Fuzzy-Folio.jpg"
             alt="thrill"
             className="img-fluid"
             width="100%"
           />
-        </div>
+        </div> */}
         <div className="container justify-content-center d-flex mt-1">
           <div
             className="card"
@@ -49,12 +54,11 @@ function Homepage() {
               width: "950px",
               backgroundColor: "#E9FEFB",
             }}
-            // 636464
           >
             <div className="row mx-5">
               <div className="col-lg-6 mx-auto my-auto">
                 <h1 className="display-5 fw-bold">Animal Fact</h1>
-                <p className="lead mb-4">{animalFact}</p>
+                <p className="lead mb-4 nav-heaading">{animalFact}</p>
               </div>
               <div className="col">
                 <Player src={animationData} loop autoplay />

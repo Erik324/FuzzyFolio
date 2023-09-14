@@ -31,11 +31,11 @@ function Nav() {
   );
   return (
     <nav
-      className="navbar navbar-light bg-body-tertiary fixed-top "
-      style={{ backgroundColor: "#FFEBE6" }}
+      className="navbar navbar-light bg-body-tertiary fixed-top"
+      id="navbarooni"
     >
-      <div className="container-fluid">
-        <NavLink className="navbar-brand" to="/">
+      <div className="container-fluid" id="navabarooni">
+        <NavLink className="navbar-brand" to="/" id="nav-heading">
           FuzzyFolio
         </NavLink>
         <button

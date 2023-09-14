@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:700");
 /* @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700'); */
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Space+Grotesk:wght@600&display=swap");
 
 .donation-custom {
   background: linear-gradient(
@@ -506,10 +508,80 @@ section .air.air4 {
 
 .spacer {
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   background-position: center;
   background-size: cover;
 }
 .wave-1 {
   background-image: url("./wave-1.svg");
+}
+
+#nav-heading {
+  color: #86c5d8;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: bold;
+}
+
+#navbarooni {
+  background: linear-gradient(#f0f8ff, #ffffff, #f0f8ff) !important;
+  color: blue !important;
+}
+
+.navbar-toggler-icon {
+  color: #add8e6 !important;
+}
+
+#banner {
+  max-width: 1296px;
+  max-height: 572px;
+  width: 80vw;
+  height: 20vw;
+  /* height: 40vw; for media query of mobile */
+}
+
+.r-text {
+  color: transparent;
+  /* position: relative;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 25%; */
+  /* font-family: 'Roboto', sans-serif; */
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 10vw;
+  /* font-weight: bold; */
+  letter-spacing: 0.05em;
+
+  /* color: white; */
+  /* background: linear-gradient(white, rgb(244, 215, 243)); */
+  background: white;
+  background-clip: text;
+  line-height: 1.1em;
+  animation: rainbow 70s linear infinite;
+}
+
+.slogan {
+  color: transparent;
+  /* position: relative;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 25%; */
+  /* font-family: 'Roboto', sans-serif; */
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2vw;
+  /* font-weight: bold; */
+  letter-spacing: 0.05em;
+
+  /* color: white; */
+  /* background: linear-gradient(white, rgb(244, 215, 243)); */
+  background: white;
+  background-clip: text;
+  line-height: 1.1em;
+  animation: rainbow 70s linear infinite;
+}
+
+@media (max-width: 850px) {
+  .slogan {
+    font-size: 2.5vw;
+  }
 }
