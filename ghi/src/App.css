@@ -430,8 +430,10 @@ section {
   height: 100%;
   background: #92bcfc;
   margin-bottom: 0;
+  padding-bottom: 50px;
   min-height: 100vh;
 }
+
 section .air {
   z-index: 2;
   position: fixed;
@@ -485,6 +487,23 @@ section .air.air4 {
   100% {
     background-position-x: -1000px;
   }
+}
+
+/*PetDetail styling*/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#section-1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #a2e5c0;
+  margin-bottom: 0;
+  padding-bottom: 50px;
+  min-height: 100vh;
 }
 
 /*mobile responsioveness*/

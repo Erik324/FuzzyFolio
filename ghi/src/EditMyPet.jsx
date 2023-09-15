@@ -66,6 +66,7 @@ function EditMyPet({ userId }) {
     };
     const response = await fetch(url, fetchConfig);
     if (response.ok) {
+      window.scrollTo(0, 0);
       navigate(`/pets/${petId}`);
     }
   };

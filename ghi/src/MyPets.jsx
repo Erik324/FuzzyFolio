@@ -2,6 +2,7 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PetsIcon from "@mui/icons-material/Pets";
+import shyDog from "./shy-dog.jpg";
 
 function MyPets({ userId }) {
   const { token, fetchWithToken } = useToken();
@@ -23,6 +24,7 @@ function MyPets({ userId }) {
   }
 
   function handleOnePetClick(petId) {
+    window.scrollTo(0, 0);
     navigate(`/pets/${petId}`);
   }
 
@@ -46,9 +48,9 @@ function MyPets({ userId }) {
 
   return (
     <section>
-      <div className="px-4 pt-5  text-center">
+      <div className="px-4 pt-5 mt-5 text-center">
         {token && (
-          <div className="container pt-5">
+          <div className="container">
             <h1>My Pets</h1>
             <div className="row">
               {petColumns.map((column, columnIndex) => (
@@ -57,8 +59,11 @@ function MyPets({ userId }) {
                     <div key={pet.id} className="col-lg-4">
                       <div className="card mb-3 p-3">
                         <img
-                          src={pet.picture}
+                          src={pet.picture ? pet.picture : shyDog}
                           alt={pet.pet_name}
+                          onError={(e) => {
+                            e.target.src = shyDog;
+                          }}
                           onClick={() => handleOnePetClick(pet.id)}
                           className="card-img-top"
                         />
